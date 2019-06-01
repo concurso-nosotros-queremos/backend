@@ -74,11 +74,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cnq_backend',
-        'USER': 'mare',
-        'PASSWORD': os.environ.get("PASSWORD", ''),
-    	'HOST': '127.0.0.1', 
-    	'PORT': '3310',
+	'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR, 'conf.cnf'),
+        },
     }
 }
 
