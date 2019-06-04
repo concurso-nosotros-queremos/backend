@@ -19,6 +19,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'hwve+jzmum@_rt0u*a@h6jh+)^d!l%b!lx^(_vfo$^85df!ce9'
 
+# DJANGO OAUTH TOOLKIT ID and SECRET used in github_social.views
+CLIENT_ID = '5hDNyn5A0MfzV1t2wUumjuvnHABGYTb0ZlUKIQd6'
+CLIENT_SECRET = 'elVvHpaxGp8eA9NQuIh2EuCRXPRftnX3AVhPBDqDoUV4457Jjvu9VwtL8xiOjKafclJsSo0LWZXVXPEeNlmHqPt2wr11InOSx8iDBaxxC53Pd2ymAAQLwdoK5Qdk9WlE'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -35,11 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'cnq',
+    'rest_framework',
+    'corsheaders',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -60,6 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -118,3 +130,40 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',  # for Google authentication
+    'social_core.backends.github.GithubOAuth2',  # for Github authentication
+
+    'django.contrib.auth.backends.ModelBackend',
+    # Facebook OAuth2
+    'social_core.backends.facebook.FacebookAppOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+)
+
+# GOOGLE
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '246477987916-97olebrvqhp82rki0n5h17u679m4tmpi.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '0-8hCK2e3lv6M9XtF-JovAmu'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '609824229504579'
+SOCIAL_AUTH_FACEBOOK_SECRET = '5fb733793d0f868cfaaa2b882de7ca6e'
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    'http://localhost:3001',
+)
+CORS_ALLOW_CREDENTIALS = True
+
+#DJANGO OAUTH TOOLKIT EXPIRATION SECONDS  - DEFAULT IS 36000 WHICH IS 10 hours
+OAUTH2_PROVIDER = {
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 36000,
+
+}
