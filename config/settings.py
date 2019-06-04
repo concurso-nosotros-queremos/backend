@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'hwve+jzmum@_rt0u*a@h6jh+)^d!l%b!lx^(_vfo$^85df!ce9'
 
-# DJANGO OAUTH TOOLKIT ID and SECRET used in github_social.views
+# DJANGO OAUTH TOOLKIT ID
 CLIENT_ID = '5hDNyn5A0MfzV1t2wUumjuvnHABGYTb0ZlUKIQd6'
 CLIENT_SECRET = 'elVvHpaxGp8eA9NQuIh2EuCRXPRftnX3AVhPBDqDoUV4457Jjvu9VwtL8xiOjKafclJsSo0LWZXVXPEeNlmHqPt2wr11InOSx8iDBaxxC53Pd2ymAAQLwdoK5Qdk9WlE'
 
@@ -141,8 +141,6 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',  # for Google authentication
-    'social_core.backends.github.GithubOAuth2',  # for Github authentication
-
     'django.contrib.auth.backends.ModelBackend',
     # Facebook OAuth2
     'social_core.backends.facebook.FacebookAppOAuth2',
