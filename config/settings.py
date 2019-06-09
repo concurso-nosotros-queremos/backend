@@ -20,8 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hwve+jzmum@_rt0u*a@h6jh+)^d!l%b!lx^(_vfo$^85df!ce9'
 
 # DJANGO OAUTH TOOLKIT ID
-CLIENT_ID = '5hDNyn5A0MfzV1t2wUumjuvnHABGYTb0ZlUKIQd6'
-CLIENT_SECRET = 'elVvHpaxGp8eA9NQuIh2EuCRXPRftnX3AVhPBDqDoUV4457Jjvu9VwtL8xiOjKafclJsSo0LWZXVXPEeNlmHqPt2wr11InOSx8iDBaxxC53Pd2ymAAQLwdoK5Qdk9WlE'
+CLIENT_ID = 'IZguQdg9VNl1vhyywnONQjqpRSDQhEo5GRPbi5EK'
+CLIENT_SECRET = 'teYOH5fhVCSel8PXOPGTqMthpcx6f2lde4iaPv5JsFoA3rMV5he2k7MAWcUIxbe2qrgykE8c7sDvYsePb0k17OcFcdfYLffii28yewnYrztS27bLm5NdUG5R1KngOxcD'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

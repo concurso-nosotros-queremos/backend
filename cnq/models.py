@@ -32,7 +32,6 @@ class City(models.Model):
 class Group(models.Model):
     contest_id = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='fk_contestGroup')
     
-
     def __str__(self):
         return 'Concurso: {}'.format(self.contest_id.name)
 
@@ -176,4 +175,3 @@ class ProjectCategory(models.Model):
 
     def __str__(self):
         return '{}, categoria: '.format(self.raw_project_id.name, self.category)
-
