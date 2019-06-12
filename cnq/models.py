@@ -31,7 +31,7 @@ class City(models.Model):
 
 class Group(models.Model):
     contest_id = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='fk_contestGroup')
-    
+
     def __str__(self):
         return 'Concurso: {}'.format(self.contest_id.name)
 
@@ -45,19 +45,46 @@ class GroupLocation(models.Model):
     def __str__(self):
         return '{} {}'.format(self.street_name, self.street_number)
 
+diffusion = [
+    (0, 'Mail'),
+    (1, 'Afiches del concurso'),
+    (2, 'Redes Sociales'),
+    (3, 'Medios de comunicacion tradicionales'),
+    (4, 'He participado en años anteriores'),
+]
+
 class RawProject(models.Model):
     name = models.CharField('Nombre', max_length=20)
     problem = models.CharField('Problema', max_length=50)
     solution = models.CharField('Solucion', max_length=50)
+    diffusion = models.IntegerField('Difusion', choices=diffusion,default=3)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupRawProject')
 
     def __str__(self):
         return 'Proyecto: {}'.format(self.name)
 
+school_types = [
+    (0, 'Publica'),
+    (1, 'Privada'),
+    (2, 'Tecnica Publica'),
+    (3, 'Tecnica Privada'),
+    (4, 'Escuela Rural'),
+    (5, 'Residencia'),
+    (6, 'Tecnica Privada'),
+]
+
+com_preferences = [
+    (0, 'Telefonica'),
+    (1, 'Email'),
+    (2, 'Otro'),
+]
+
 class RawSchool(models.Model):
     name = models.CharField('Nombre', max_length=10)
     address = models.CharField('Direccion', max_length=20)
     principal_name = models.CharField('Nombre del director', max_length=10)
+    school_types = models.IntegerField('Tipo de escuela', choices=school_types,default= 0)
+    com_preference = models.IntegerField('Preferencia de la comunicacion', choices=com_preferences, default=0)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupRawSchool')
     
     def __str__(self):
@@ -86,7 +113,7 @@ group_role_choices = [
 ]
 
 class GroupRole(models.Model):
-    group_role_choices = models.CharField('Rol', max_length=1, choices=group_role_choices, default=0)
+    group_role_choices = models.IntegerField('Rol', choices=group_role_choices, default=0)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='fk_userGroupRole')
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupGroupRole')
 
@@ -120,7 +147,7 @@ class PostAttachment(models.Model):
 
 
 class GroupToken(models.Model):
-    group_role_choices = models.CharField('Rol', max_length=1, choices=group_role_choices, default=0)
+    group_role_choices = models.IntegerField('Rol', choices=group_role_choices, default=0)
     ##token = token
     is_active = models.BooleanField('Activo', default=True)
     max_uses = models.IntegerField('Usos maximos', null=True)
@@ -153,10 +180,10 @@ class RawParticipant(models.Model):
     first_name = models.CharField('Nombre', max_length=10)
     last_name = models.CharField('Apellido', max_length=10)
     dni = models.CharField('Dni', max_length=10)
-    email = models.EmailField(max_length=20, null= False, unique= True)
+    email = models.EmailField('Email',max_length=20, null= False, unique= True)
     phone_number = models.CharField('Telefono', max_length=30)
-    grade_choices = models.CharField(max_length=1, choices=grade_choices)
-    divition_choices = models.CharField(max_length=1, choices=divition_choices)
+    grade_choices = models.IntegerField('Año',choices=grade_choices, default=0)
+    divition_choices = models.IntegerField('Division',choices=divition_choices, default=0)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupRawParticipant')
 
     def __str__(self):

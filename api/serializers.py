@@ -14,12 +14,7 @@ class StateSerializer(serializers.ModelSerializer):
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model=City
-        fields=('id', 'city')
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Group
-        fields=('id', 'contest_id')
+        fields=('id', 'name')
 
 class GroupLocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -90,3 +85,10 @@ class ProjectCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model=ProjectCategory
         fields=('id', 'raw_project_id', 'category')
+
+class GroupSerializer(serializers.ModelSerializer):
+    raw_project=RawProjectSerializer()
+
+    class Meta:
+        model=Group
+        fields=('id', 'contest_id', 'raw_project')

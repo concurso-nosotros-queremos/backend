@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import *
 from cnq.models import *
+from rest_framework.response import Response
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -19,6 +20,9 @@ class CityViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+    def create(self, request, *args, **kwargs):
+        return Response(request)
 
 class GroupLocationViewSet(viewsets.ModelViewSet):
     queryset = GroupLocation.objects.all()

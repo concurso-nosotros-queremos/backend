@@ -26,7 +26,7 @@ CLIENT_SECRET = 'teYOH5fhVCSel8PXOPGTqMthpcx6f2lde4iaPv5JsFoA3rMV5he2k7MAWcUIxbe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
