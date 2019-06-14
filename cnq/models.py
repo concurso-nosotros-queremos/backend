@@ -30,10 +30,11 @@ class City(models.Model):
 
 
 class Group(models.Model):
+    name = models.CharField('Nombre', max_length=15)
     contest_id = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='fk_contestGroup')
 
     def __str__(self):
-        return 'Concurso: {}'.format(self.contest_id.name)
+        return 'Grupo: {}, Concurso: {}'.format(self.name, self.contest_id.name)
 
 class GroupLocation(models.Model):
     street_name = models.CharField('Direccion', max_length=20)

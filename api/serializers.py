@@ -29,7 +29,7 @@ class RawProjectSerializer(serializers.ModelSerializer):
 class RawSchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model=RawSchool
-        fields=('id', 'name', 'address', 'principal', 'group_id')
+        fields=('id', 'name', 'address', 'principal_name', 'group_id')
 
 class ContestWinnerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -87,8 +87,11 @@ class ProjectCategorySerializer(serializers.ModelSerializer):
         fields=('id', 'raw_project_id', 'category')
 
 class GroupSerializer(serializers.ModelSerializer):
-    raw_project=RawProjectSerializer()
+    group_location = GroupLocationSerializer()
+    raw_participant = RawParticipantSerializer()
+    raw_school = RawSchoolSerializer()
+    raw_project = RawProjectSerializer()
 
     class Meta:
         model=Group
-        fields=('id', 'contest_id', 'raw_project')
+        fields=('id', 'name', 'contest_id', 'group_location', 'raw_participant', 'raw_school', 'raw_project')
