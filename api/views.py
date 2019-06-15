@@ -21,9 +21,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
-    def create(self, request, *args, **kwargs):
-        return Response(request)
-
 class GroupLocationViewSet(viewsets.ModelViewSet):
     queryset = GroupLocation.objects.all()
     serializer_class = GroupLocationSerializer
