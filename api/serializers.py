@@ -87,26 +87,25 @@ class ProjectCategorySerializer(serializers.ModelSerializer):
         fields=('id', 'raw_project_id', 'category')
 
 class GroupSerializer(serializers.ModelSerializer):
-    group_location = GroupLocationSerializer(many=True)
+    group_location = GroupLocationSerializer()
+    raw_school = RawSchoolSerializer()
+    raw_project = RawProjectSerializer()
     raw_participant = RawParticipantSerializer(many=True)
-    raw_school = RawSchoolSerializer(many=True)
-    raw_project = RawProjectSerializer(many=True)
+
     class Meta:
         model=Group
         fields=('__all__')
 
     def create(self, validated_data):
         group_location_data = validated_data.pop('group_location')
-        raw_participant_data = validated_data.pop('raw_participant')
         raw_school_data = validated_data.pop('raw_school')
         raw_project_data = validated_data.pop('raw_project')
+        raw_participant_data = validated_data.pop('raw_participant')
+
         group = Group.objects.create(**validated_data)
-        for group_location in group_location_data:
-            GroupLocation.objects.create(group=group, **group_location)
+        GroupLocation.objects.create(group=group, **group_location_data)
+        RawSchool.objects.create(group=group, **raw_school_data)
+        RawProject.objects.create(group=group, **raw_project_data)
         for raw_participant in raw_participant_data:
             RawParticipant.objects.create(group=group, **raw_participant)
-        for raw_school in raw_school_data:
-            RawSchool.objects.create(group=group, **raw_school)
-        for raw_project in raw_project_data:
-            RawProject.objects.create(group=group, **raw_project)
         return group
