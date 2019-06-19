@@ -6,11 +6,17 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 class Contest(models.Model):
-    is_active = models.BooleanField('Vigente', default=False, unique=True)
+    is_active = models.BooleanField('Vigente', default=False)
     year = models.IntegerField('Año', default=datetime.datetime.now().year)
     name = models.CharField('Nombre del concurso', max_length=30, null=False)
     date_from = models.DateTimeField('Desde', auto_now_add=True, blank=True)
     date_to = models.DateTimeField('Hasta', null=False)
+
+    def save(self, *args, **kwargs):
+        if Contest.objects.filter(is_active=True):
+            if self.is_active is True:
+                self.is_active = None
+        super(Contest, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'Edicion: {}'.format(self.year)

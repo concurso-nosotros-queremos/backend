@@ -94,7 +94,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Group
-        fields=('__all__')
+        fields=('group_location', 'raw_school', 'raw_project', 'raw_participant', 'name')
 
     def create(self, validated_data):
         group_location_data = validated_data.pop('group_location')
@@ -102,7 +102,8 @@ class GroupSerializer(serializers.ModelSerializer):
         raw_project_data = validated_data.pop('raw_project')
         raw_participant_data = validated_data.pop('raw_participant')
 
-        group = Group.objects.create(**validated_data)
+        contest = Contest.objects.get(is_active=True)
+        group = Group.objects.create(contest=contest, **validated_data)
         GroupLocation.objects.create(group=group, **group_location_data)
         RawSchool.objects.create(group=group, **raw_school_data)
         RawProject.objects.create(group=group, **raw_project_data)
