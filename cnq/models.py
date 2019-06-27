@@ -8,75 +8,109 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Contest(models.Model):
     is_active = models.BooleanField('Vigente', default=False)
     year = models.IntegerField('Año', default=datetime.datetime.now().year)
-    name = models.CharField('Nombre del concurso', max_length=50)
+    name = models.CharField('Nombre del concurso', max_length=30, null=False)
     date_from = models.DateTimeField('Desde', auto_now_add=True, blank=True)
-    date_to = models.DateTimeField('Hasta')
+    date_to = models.DateTimeField('Hasta', null=False)
+
+    def save(self, *args, **kwargs):
+        if Contest.objects.filter(is_active=True):
+            if self.is_active is True:
+                self.is_active = None
+        super(Contest, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'Edicion: {}'.format(self.year)
 
 class State(models.Model):
-    name = models.CharField('Nombre', max_length=10)
+    name = models.CharField('Nombre', max_length=20, null=False, unique=True)
 
     def __str__(self):
         return 'Estado: {}'.format(self.name)
 
 class City(models.Model):
-    name = models.CharField('Nombre', max_length=10)
-    state_id = models.ForeignKey(State, on_delete=models.CASCADE, related_name='fk_stateCity')
+    name = models.CharField('Nombre', max_length=20, null=False, unique=True)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='city')
 
     def __str__(self):
         return 'Ciudad: {}'.format(self.name)
 
 
 class Group(models.Model):
-    contest_id = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='fk_contestGroup')
-    
+    name = models.CharField('Nombre', max_length=20, null=False)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='group')
+
     def __str__(self):
-        return 'Concurso: {}'.format(self.contest_id.name)
+        return 'Grupo: {}, Concurso: {}'.format(self.name, self.contest.name)
 
 class GroupLocation(models.Model):
-    street_name = models.CharField('Direccion', max_length=20)
-    street_number = models.CharField('Altura', max_length=10, default=0)
-    zip_code = models.PositiveIntegerField('Zip', validators=[MaxValueValidator(10000), MinValueValidator(0)])
-    city_id = models.ForeignKey(City, on_delete=models.CASCADE, related_name='fk_cityGrouplocation')
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupGroupLocation')
+    street_name = models.CharField('Direccion', max_length=35, null=False)
+    street_number = models.CharField('Altura', max_length=10, null=False)
+    zip_code = models.PositiveIntegerField('Zip', validators=[MaxValueValidator(10000), MinValueValidator(0)], null=False)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='group_location')
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='group_location')
 
     def __str__(self):
         return '{} {}'.format(self.street_name, self.street_number)
 
+diffusion = [
+    (0, 'Mail'),
+    (1, 'Afiches del concurso'),
+    (2, 'Redes Sociales'),
+    (3, 'Medios de comunicacion tradicionales'),
+    (4, 'He participado en años anteriores'),
+]
+
 class RawProject(models.Model):
-    name = models.CharField('Nombre', max_length=20)
-    problem = models.CharField('Problema', max_length=50)
-    solution = models.CharField('Solucion', max_length=50)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupRawProject')
+    name = models.CharField('Nombre', max_length=30, null=False)
+    problem = models.CharField('Problema', max_length=70, null=False)
+    solution = models.CharField('Solucion', max_length=150, null=False)
+    diffusion = models.IntegerField('Difusion', choices=diffusion, null=False)
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_project')
 
     def __str__(self):
         return 'Proyecto: {}'.format(self.name)
 
+school_types = [
+    (0, 'Publica'),
+    (1, 'Privada'),
+    (2, 'Tecnica Publica'),
+    (3, 'Tecnica Privada'),
+    (4, 'Escuela Rural'),
+    (5, 'Residencia'),
+    (6, 'Tecnica Privada'),
+]
+
+com_preferences = [
+    (0, 'Telefonica'),
+    (1, 'Email'),
+    (2, 'Otro'),
+]
+
 class RawSchool(models.Model):
-    name = models.CharField('Nombre', max_length=10)
-    address = models.CharField('Direccion', max_length=20)
-    principal_name = models.CharField('Nombre del director', max_length=10)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupRawSchool')
+    name = models.CharField('Nombre', max_length=35, null=False)
+    address = models.CharField('Direccion', max_length=40)
+    principal_name = models.CharField('Nombre del director', max_length=25)
+    school_types = models.IntegerField('Tipo de escuela', choices=school_types, null=False)
+    com_preference = models.IntegerField('Preferencia de la comunicacion', choices=com_preferences, null=False)
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_school')
     
     def __str__(self):
         return 'Escuela: {}, con su ubicacion en {}'.format(self.name, self.address)
 
 
 class ContestWinner(models.Model):
-    contest_id = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='fk_contestContestWinner')
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='contest_winner')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='contest_winner')
 
     def __str__(self):
-        return 'El proyecto {} gano el concurso {}'.format(self.group_id.fk_groupRawProject, self.contest_id.name)
+        return 'El grupo {} gano el concurso {}'.format(self.group.name, self.contest.name)
 
 class ContestFinalist(models.Model):
-    contest_id = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='fk_contestContestFinalist')
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='contest_finalist')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='contest_finalist')
     
     def __str__(self):
-        return 'El proyecto {} es finalista del concurso {}'.format(self.group_id.fk_groupRawProject, self.contest_id.name)
+        return 'El grupo {} es finalista del concurso {}'.format(self.group, self.contest.name)
 
 group_role_choices = [
     (0, 'Anonimo'),
@@ -86,55 +120,55 @@ group_role_choices = [
 ]
 
 class GroupRole(models.Model):
-    group_role_choices = models.CharField('Rol', max_length=1, choices=group_role_choices, default=0)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='fk_userGroupRole')
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupGroupRole')
+    group_role_choices = models.IntegerField('Rol', choices=group_role_choices, default=0)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='group_role')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_role')
 
     def __str__(self):
-        return 'El usuario {} tiene el rol {} para el grupo {}'.format(self.user_id, self.group_role_choices, self.group_id)
+        return 'El usuario {} tiene el rol {} para el grupo {}'.format(self.user, self.group_role_choices, self.group)
 
 class GroupPost(models.Model):
-    body = models.CharField('Cuerpo', max_length=50)
-    title = models.CharField('Titulo', max_length=15)
-    group_role_id = models.ForeignKey(GroupRole, on_delete=models.CASCADE, related_name='fk_grouproleGroupPost')
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    body = models.CharField('Cuerpo', max_length=70)
+    title = models.CharField('Titulo', max_length=20)
+    group_role = models.ForeignKey(GroupRole, on_delete=models.CASCADE, related_name='group_post')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_post')
 
     def __str__(self):
-        return 'Titulo: {}, Cuerpo: {}, Grupo: {}'.format(self.title, self.body, self.group_id)
+        return 'Titulo: {}, Cuerpo: {}, Grupo: {}'.format(self.title, self.body, self.group)
 
 class PostComment(models.Model):
     body = models.CharField('Cuerpo', max_length=50)
-    group_role_id = models.ForeignKey(GroupRole, on_delete=models.CASCADE, related_name='fk_grouprolePostComment')
-    group_post_id = models.ForeignKey(GroupPost, on_delete=models.CASCADE, related_name='fk_grouppostPostComment')
+    group_role = models.ForeignKey(GroupRole, on_delete=models.CASCADE, related_name='post_comment')
+    group_post = models.ForeignKey(GroupPost, on_delete=models.CASCADE, related_name='post_comment')
 
     def __str__(self):
-        return 'Cuerpo: {}, Post: {}'.format(self.body, self.group_post_id)
+        return 'Cuerpo: {}, Post: {}'.format(self.body, self.group_post)
 
 class PostAttachment(models.Model):
-    group_post_id = models.ForeignKey(GroupPost, on_delete=models.CASCADE, related_name='fk_grouppostPostAttachment')
+    group_post = models.ForeignKey(GroupPost, on_delete=models.CASCADE, related_name='post_attachment')
     ##file_url = ??
     ##file_type_choices = ??
 
     def __str__(self):
-        return 'Post: {}'.format(self.group_post_id)
+        return 'Post: {}'.format(self.group_post)
 
 
 class GroupToken(models.Model):
-    group_role_choices = models.CharField('Rol', max_length=1, choices=group_role_choices, default=0)
+    group_role_choices = models.IntegerField('Rol', choices=group_role_choices, default=0)
     ##token = token
     is_active = models.BooleanField('Activo', default=True)
     max_uses = models.IntegerField('Usos maximos', null=True)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupGroupToken')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_token')
 
     def __str__(self):
-        return 'Token del grupo {}'.format(self.group_id)
+        return 'Token del grupo {}'.format(self.group)
 
 class TokenUses(models.Model):
-    group_token_id = models.ForeignKey(GroupToken, on_delete=models.CASCADE, related_name='fk_grouptokenTokenUses')
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='fk_userTokenUses')
+    group_token = models.ForeignKey(GroupToken, on_delete=models.CASCADE, related_name='token_uses')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='token_uses')
 
     def __str__(self):
-        return 'Usuario: {}, Token: {}'.format(self.user_id, self.group_token_id)
+        return 'Usuario: {}, Token: {}'.format(self.user, self.group_token)
 
 grade_choices = [
     (0, '4to'),
@@ -148,30 +182,29 @@ divition_choices = [
     (2, 'C'),
 ]
 
-
 class RawParticipant(models.Model):
-    first_name = models.CharField('Nombre', max_length=10)
-    last_name = models.CharField('Apellido', max_length=10)
-    dni = models.CharField('Dni', max_length=10)
-    email = models.EmailField(max_length=20, null= False, unique= True)
+    first_name = models.CharField('Nombre', max_length=15, null=False)
+    last_name = models.CharField('Apellido', max_length=15, null=False)
+    dni = models.CharField('Dni', max_length=12, null=False, unique=True)
+    email = models.EmailField('Email',max_length=30, null= False, unique= True)
     phone_number = models.CharField('Telefono', max_length=30)
-    grade_choices = models.CharField(max_length=1, choices=grade_choices)
-    divition_choices = models.CharField(max_length=1, choices=divition_choices)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='fk_groupRawParticipant')
+    grade_choices = models.IntegerField('Año',choices=grade_choices, null=False)
+    divition_choices = models.IntegerField('Division',choices=divition_choices, null=False)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='raw_participant')
 
     def __str__(self):
         return '{} {}, Dni Nº: {}'.format(self.first_name, self.last_name, self.dni)
 
 class Category(models.Model):
-    name = models.CharField('Nombre', max_length=15)
+    name = models.CharField('Nombre', max_length=20, null=False)
     description = models.CharField('Descripcion', max_length=40)
 
     def __str__(self):
         return '{}'.format(self.name)
 
 class ProjectCategory(models.Model):
-    raw_project_id = models.ForeignKey(RawProject, on_delete=models.CASCADE, related_name='fk_rawprojectProjectcategory')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='fk_categoryProjectCategory')
+    raw_project = models.ForeignKey(RawProject, on_delete=models.CASCADE, related_name='project_category')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='project_category')
 
     def __str__(self):
-        return '{}, categoria: '.format(self.raw_project_id.name, self.category)
+        return '{}, categoria: '.format(self.raw_project.name, self.category)
