@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+
 # Create your models here.
 
 class Contest(models.Model):
@@ -21,11 +22,13 @@ class Contest(models.Model):
     def __str__(self):
         return 'Edicion: {}'.format(self.year)
 
+
 class State(models.Model):
     name = models.CharField('Nombre', max_length=20, null=False, unique=True)
 
     def __str__(self):
         return 'Estado: {}'.format(self.name)
+
 
 class City(models.Model):
     name = models.CharField('Nombre', max_length=20, null=False, unique=True)
@@ -42,6 +45,7 @@ class Group(models.Model):
     def __str__(self):
         return 'Grupo: {}, Concurso: {}'.format(self.name, self.contest.name)
 
+
 class GroupLocation(models.Model):
     street_name = models.CharField('Direccion', max_length=35, null=False)
     street_number = models.CharField('Altura', max_length=10, null=False)
@@ -52,6 +56,7 @@ class GroupLocation(models.Model):
     def __str__(self):
         return '{} {}'.format(self.street_name, self.street_number)
 
+
 diffusion = [
     (0, 'Mail'),
     (1, 'Afiches del concurso'),
@@ -59,6 +64,7 @@ diffusion = [
     (3, 'Medios de comunicacion tradicionales'),
     (4, 'He participado en años anteriores'),
 ]
+
 
 class RawProject(models.Model):
     name = models.CharField('Nombre', max_length=30, null=False)
@@ -69,6 +75,7 @@ class RawProject(models.Model):
 
     def __str__(self):
         return 'Proyecto: {}'.format(self.name)
+
 
 school_types = [
     (0, 'Publica'),
@@ -86,6 +93,7 @@ com_preferences = [
     (2, 'Otro'),
 ]
 
+
 class RawSchool(models.Model):
     name = models.CharField('Nombre', max_length=35, null=False)
     address = models.CharField('Direccion', max_length=40)
@@ -93,7 +101,7 @@ class RawSchool(models.Model):
     school_types = models.IntegerField('Tipo de escuela', choices=school_types, null=False)
     com_preference = models.IntegerField('Preferencia de la comunicacion', choices=com_preferences, null=False)
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_school')
-    
+
     def __str__(self):
         return 'Escuela: {}, con su ubicacion en {}'.format(self.name, self.address)
 
@@ -105,12 +113,14 @@ class ContestWinner(models.Model):
     def __str__(self):
         return 'El grupo {} gano el concurso {}'.format(self.group.name, self.contest.name)
 
+
 class ContestFinalist(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='contest_finalist')
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='contest_finalist')
-    
+
     def __str__(self):
         return 'El grupo {} es finalista del concurso {}'.format(self.group, self.contest.name)
+
 
 group_role_choices = [
     (0, 'Anonimo'),
@@ -119,6 +129,7 @@ group_role_choices = [
     (3, 'Mentor'),
 ]
 
+
 class GroupRole(models.Model):
     group_role_choices = models.IntegerField('Rol', choices=group_role_choices, default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='group_role')
@@ -126,6 +137,7 @@ class GroupRole(models.Model):
 
     def __str__(self):
         return 'El usuario {} tiene el rol {} para el grupo {}'.format(self.user, self.group_role_choices, self.group)
+
 
 class GroupPost(models.Model):
     body = models.CharField('Cuerpo', max_length=70)
@@ -136,6 +148,7 @@ class GroupPost(models.Model):
     def __str__(self):
         return 'Titulo: {}, Cuerpo: {}, Grupo: {}'.format(self.title, self.body, self.group)
 
+
 class PostComment(models.Model):
     body = models.CharField('Cuerpo', max_length=50)
     group_role = models.ForeignKey(GroupRole, on_delete=models.CASCADE, related_name='post_comment')
@@ -144,8 +157,10 @@ class PostComment(models.Model):
     def __str__(self):
         return 'Cuerpo: {}, Post: {}'.format(self.body, self.group_post)
 
+
 class PostAttachment(models.Model):
     group_post = models.ForeignKey(GroupPost, on_delete=models.CASCADE, related_name='post_attachment')
+
     ##file_url = ??
     ##file_type_choices = ??
 
@@ -163,12 +178,14 @@ class GroupToken(models.Model):
     def __str__(self):
         return 'Token del grupo {}'.format(self.group)
 
+
 class TokenUses(models.Model):
     group_token = models.ForeignKey(GroupToken, on_delete=models.CASCADE, related_name='token_uses')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='token_uses')
 
     def __str__(self):
         return 'Usuario: {}, Token: {}'.format(self.user, self.group_token)
+
 
 grade_choices = [
     (0, '4to'),
@@ -182,18 +199,20 @@ divition_choices = [
     (2, 'C'),
 ]
 
+
 class RawParticipant(models.Model):
     first_name = models.CharField('Nombre', max_length=15, null=False)
     last_name = models.CharField('Apellido', max_length=15, null=False)
     dni = models.CharField('Dni', max_length=12, null=False, unique=True)
-    email = models.EmailField('Email',max_length=30, null= False, unique= True)
+    email = models.EmailField('Email', max_length=30, null=False, unique=True)
     phone_number = models.CharField('Telefono', max_length=30)
-    grade_choices = models.IntegerField('Año',choices=grade_choices, null=False)
-    divition_choices = models.IntegerField('Division',choices=divition_choices, null=False)
+    grade_choices = models.IntegerField('Año', choices=grade_choices, null=False)
+    divition_choices = models.IntegerField('Division', choices=divition_choices, null=False)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='raw_participant')
 
     def __str__(self):
         return '{} {}, Dni Nº: {}'.format(self.first_name, self.last_name, self.dni)
+
 
 class Category(models.Model):
     name = models.CharField('Nombre', max_length=20, null=False)
@@ -201,6 +220,7 @@ class Category(models.Model):
 
     def __str__(self):
         return '{}'.format(self.name)
+
 
 class ProjectCategory(models.Model):
     raw_project = models.ForeignKey(RawProject, on_delete=models.CASCADE, related_name='project_category')
