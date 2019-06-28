@@ -10,7 +10,7 @@ class ContestViewSet(viewsets.ModelViewSet):
     serializer_class = ContestSerializer
 
 class StateViewSet(viewsets.ModelViewSet):
-    queryset = Contest.objects.all()
+    queryset = State.objects.all()
     serializer_class = StateSerializer
 
 class CityViewSet(viewsets.ModelViewSet):
