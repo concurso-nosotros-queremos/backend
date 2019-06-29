@@ -31,11 +31,14 @@ class State(models.Model):
 
 
 class City(models.Model):
-    name = models.CharField('Nombre', max_length=20, null=False, unique=True)
+    name = models.CharField('Nombre', max_length=60, null=False)
     state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='city')
-
+    class Meta:
+        unique_together = ('name', 'state',)
+    
     def __str__(self):
         return 'Ciudad: {}'.format(self.name)
+
 
 
 class Group(models.Model):
