@@ -21,7 +21,7 @@ class Contest(models.Model):
         super(Contest, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'Edicion: {}'.format(self.year)
+        return 'Edicion: {}'.format(self.inscription_date_from.year)
 
 
 class State(models.Model):
