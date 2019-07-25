@@ -8,10 +8,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Contest(models.Model):
     is_active = models.BooleanField('Vigente', default=False)
-    year = models.IntegerField('Año', default=datetime.datetime.now().year)
     name = models.CharField('Nombre del concurso', max_length=30, null=False)
-    date_from = models.DateTimeField('Desde', auto_now_add=True, blank=True)
+    date_from = models.DateTimeField('Desde', null=False)
     date_to = models.DateTimeField('Hasta', null=False)
+    inscription_date_from = models.DateTimeField('Inscripcion desde', null=False)
+    inscription_date_to = models.DateTimeField('Inscripcion_hasta', null=False)
 
     def save(self, *args, **kwargs):
         if Contest.objects.filter(is_active=True):
@@ -206,9 +207,9 @@ divition_choices = [
 class RawParticipant(models.Model):
     first_name = models.CharField('Nombre', max_length=15, null=False)
     last_name = models.CharField('Apellido', max_length=15, null=False)
-    dni = models.CharField('Dni', max_length=12, null=False, unique=True)
-    email = models.EmailField('Email', max_length=30, null=False, unique=True)
-    phone_number = models.CharField('Telefono', max_length=30)
+    dni = models.CharField('Dni', max_length=12, null=False)
+    email = models.EmailField('Email', max_length=30, null=True)
+    phone_number = models.CharField('Telefono', null=True, max_length=30)
     grade_choices = models.IntegerField('Año', choices=grade_choices, null=False)
     divition_choices = models.IntegerField('Division', choices=divition_choices, null=False)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='raw_participant')
