@@ -25,11 +25,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 
-class GroupLocationViewSet(viewsets.ModelViewSet):
-    queryset = GroupLocation.objects.all()
-    serializer_class = GroupLocationSerializer
-
-
 class RawProjectViewSet(viewsets.ModelViewSet):
     queryset = RawProject.objects.all()
     serializer_class = RawProjectSerializer
@@ -84,6 +79,9 @@ class RawParticipantViewSet(viewsets.ModelViewSet):
     queryset = RawParticipant.objects.all()
     serializer_class = RawParticipantSerializer
 
+class RawContactViewSet(viewsets.ModelViewSet):
+    queryset = RawContact.objects.all()
+    serializer_class = RawContactSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()

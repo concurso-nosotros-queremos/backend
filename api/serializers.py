@@ -30,12 +30,6 @@ class StateSerializer(serializers.ModelSerializer):
         return state
 
 
-class GroupLocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GroupLocation
-        fields = ('id', 'street_name', 'street_number', 'zip_code', 'city')
-
-
 class RawProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = RawProject
@@ -45,7 +39,7 @@ class RawProjectSerializer(serializers.ModelSerializer):
 class RawSchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = RawSchool
-        fields = ('id', 'name', 'address', 'principal_name', 'school_types', 'com_preference')
+        fields = ('id', 'name', 'street_name', 'street_number', 'city', 'school_types')
 
 
 class ContestWinnerSerializer(serializers.ModelSerializer):
@@ -99,7 +93,13 @@ class TokenUsesSerializer(serializers.ModelSerializer):
 class RawParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = RawParticipant
-        fields = ('id', 'first_name', 'last_name', 'dni', 'email', 'phone_number', 'grade_choices', 'divition_choices')
+        fields = ('id', 'first_name', 'last_name', 'dni', 'grade_choices')
+
+
+class RawContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RawContact
+        fields = ('id', 'phone_number', 'alternative_email', 'alternative_phone_number')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -115,26 +115,26 @@ class ProjectCategorySerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    group_location = GroupLocationSerializer()
     raw_school = RawSchoolSerializer()
     raw_project = RawProjectSerializer()
     raw_participant = RawParticipantSerializer(many=True)
+    raw_contact = RawContactSerializer()
 
     class Meta:
         model = Group
-        fields = ('group_location', 'raw_school', 'raw_project', 'raw_participant', 'name')
+        fields = ('raw_school', 'raw_project', 'raw_participant', 'raw_contact')
 
     def create(self, validated_data):
-        group_location_data = validated_data.pop('group_location')
         raw_school_data = validated_data.pop('raw_school')
         raw_project_data = validated_data.pop('raw_project')
         raw_participant_data = validated_data.pop('raw_participant')
+        raw_contact_data = validated_data.pop('raw_contact')
 
         contest = Contest.objects.get(is_active=True)
         group = Group.objects.create(contest=contest, **validated_data)
-        GroupLocation.objects.create(group=group, **group_location_data)
         RawSchool.objects.create(group=group, **raw_school_data)
         RawProject.objects.create(group=group, **raw_project_data)
         for raw_participant in raw_participant_data:
             RawParticipant.objects.create(group=group, **raw_participant)
+        RawContact.objects.create(group=group, **raw_contact_data)
         return group

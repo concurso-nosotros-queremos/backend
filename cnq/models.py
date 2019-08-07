@@ -21,7 +21,7 @@ class Contest(models.Model):
         super(Contest, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'Edicion: {}'.format(self.inscription_date_from.year)
+        return 'Nombre: {}'.format(self.name)
 
 
 class State(models.Model):
@@ -42,7 +42,6 @@ class City(models.Model):
 
 
 class Group(models.Model):
-    name = models.CharField('Nombre', max_length=20, null=False)
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='group')
 
     def __str__(self):
@@ -190,10 +189,11 @@ class RawParticipant(models.Model):
     def __str__(self):
         return '{} {}, Dni Nº: {}'.format(self.first_name, self.last_name, self.dni)
 
-class Raw_contact_data(models.Model):
+class RawContact(models.Model):
     phone_number = PhoneField('Numero del tutor', null=False)
-    alternative_email = models.EmailField('Mail del tutor alternativo', max_length=70, null=Flase)
+    alternative_email = models.EmailField('Mail del tutor alternativo', max_length=70, null=False)
     alternative_phone_number = PhoneField('Numero del tutor alternativo', null=False)
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_contact')
 
     def __str__(self):
         return '{}'.format(self.phone_number)
