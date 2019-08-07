@@ -2,7 +2,7 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from phone_field import PhoneField
 
 # Create your models here.
 
@@ -41,24 +41,12 @@ class City(models.Model):
         return 'Ciudad: {}'.format(self.name)
 
 
-
 class Group(models.Model):
     name = models.CharField('Nombre', max_length=20, null=False)
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='group')
 
     def __str__(self):
         return 'Grupo: {}, Concurso: {}'.format(self.name, self.contest.name)
-
-
-class GroupLocation(models.Model):
-    street_name = models.CharField('Direccion', max_length=35, null=False)
-    street_number = models.CharField('Altura', max_length=10, null=False)
-    zip_code = models.PositiveIntegerField('Zip', validators=[MaxValueValidator(10000), MinValueValidator(0)], null=False)
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='group_location')
-    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='group_location')
-
-    def __str__(self):
-        return '{} {}'.format(self.street_name, self.street_number)
 
 
 diffusion = [
@@ -69,13 +57,13 @@ diffusion = [
     (4, 'He participado en años anteriores'),
 ]
 
-
 class RawProject(models.Model):
     name = models.CharField('Nombre', max_length=30, null=False)
     problem = models.CharField('Problema', max_length=70, null=False)
     solution = models.CharField('Solucion', max_length=150, null=False)
     diffusion = models.IntegerField('Difusion', choices=diffusion, null=False)
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_project')
+    ##categories
 
     def __str__(self):
         return 'Proyecto: {}'.format(self.name)
@@ -89,25 +77,19 @@ school_types = [
     (4, 'Escuela Rural'),
     (5, 'Residencia'),
     (6, 'Tecnica Privada'),
+    ##Others
 ]
-
-com_preferences = [
-    (0, 'Telefonica'),
-    (1, 'Email'),
-    (2, 'Otro'),
-]
-
 
 class RawSchool(models.Model):
     name = models.CharField('Nombre', max_length=35, null=False)
-    address = models.CharField('Direccion', max_length=40)
-    principal_name = models.CharField('Nombre del director', max_length=25)
+    street_name = models.CharField('Direccion', max_length=40)
+    street_number = models.IntegerField('Altura', null=False)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='group_location')
     school_types = models.IntegerField('Tipo de escuela', choices=school_types, null=False)
-    com_preference = models.IntegerField('Preferencia de la comunicacion', choices=com_preferences, null=False)
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_school')
 
     def __str__(self):
-        return 'Escuela: {}, con su ubicacion en {}'.format(self.name, self.address)
+        return 'Escuela: {}, con su ubicacion en {} al {}'.format(self.name, self.street_name, self.street_number)
 
 
 class ContestWinner(models.Model):
@@ -197,25 +179,24 @@ grade_choices = [
     (2, '6to'),
     (3, '7mo'),
 ]
-divition_choices = [
-    (0, 'A'),
-    (1, 'B'),
-    (2, 'C'),
-]
-
 
 class RawParticipant(models.Model):
     first_name = models.CharField('Nombre', max_length=15, null=False)
     last_name = models.CharField('Apellido', max_length=15, null=False)
     dni = models.CharField('Dni', max_length=12, null=False)
-    email = models.EmailField('Email', max_length=30, null=True)
-    phone_number = models.CharField('Telefono', null=True, max_length=30)
     grade_choices = models.IntegerField('Año', choices=grade_choices, null=False)
-    divition_choices = models.IntegerField('Division', choices=divition_choices, null=False)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='raw_participant')
 
     def __str__(self):
         return '{} {}, Dni Nº: {}'.format(self.first_name, self.last_name, self.dni)
+
+class Raw_contact_data(models.Model):
+    phone_number = PhoneField('Numero del tutor', null=False)
+    alternative_email = models.EmailField('Mail del tutor alternativo', max_length=70, null=Flase)
+    alternative_phone_number = PhoneField('Numero del tutor alternativo', null=False)
+
+    def __str__(self):
+        return '{}'.format(self.phone_number)
 
 
 class Category(models.Model):
