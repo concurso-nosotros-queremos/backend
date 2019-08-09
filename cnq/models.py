@@ -45,7 +45,7 @@ class Group(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='group')
 
     def __str__(self):
-        return 'Grupo: {}, Concurso: {}'.format(self.name, self.contest.name)
+        return 'Concurso: {}'.format(self.contest.name)
 
 
 diffusion = [
@@ -65,7 +65,7 @@ class RawProject(models.Model):
     ##categories
 
     def __str__(self):
-        return 'Proyecto: {}'.format(self.name)
+        return '{}'.format(self.name)
 
 
 school_types = [
@@ -212,4 +212,4 @@ class ProjectCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='project_category')
 
     def __str__(self):
-        return '{}, categoria: '.format(self.raw_project.name, self.category)
+        return '{}, categoria: {}'.format(self.raw_project.name, self.category.name)

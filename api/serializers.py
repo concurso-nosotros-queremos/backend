@@ -111,7 +111,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProjectCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectCategory
-        fields = ('id', 'raw_project_id', 'category')
+        fields = ('id', 'raw_project', 'category')
 
 
 class GroupSerializer(serializers.ModelSerializer):
