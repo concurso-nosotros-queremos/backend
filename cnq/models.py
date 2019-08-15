@@ -1,8 +1,7 @@
 import datetime
 from django.conf import settings
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
-from phone_field import PhoneField
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator, MaxValueValidator, MinLengthValidator
 
 # Create your models here.
 
@@ -57,12 +56,14 @@ diffusion = [
 ]
 
 class RawProject(models.Model):
-    name = models.CharField('Nombre', max_length=30, null=False)
-    problem = models.CharField('Problema', max_length=70, null=False)
-    solution = models.CharField('Solucion', max_length=150, null=False)
-    diffusion = models.IntegerField('Difusion', choices=diffusion, null=False)
+    specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
+
+    name = models.CharField('Nombre', max_length=30, null=False, validators=[specialCharacters])
+    problem = models.CharField('Problema', max_length=70, null=False, validators=[specialCharacters])
+    solution = models.CharField('Solucion', max_length=150, null=False, validators=[specialCharacters])
+    diffusion = models.PositiveIntegerField('Difusion', choices=diffusion, null=False, validators=[MaxValueValidator(4), MinValueValidator(1)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_project')
-    ##categories
+     ##categories
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -80,11 +81,13 @@ school_types = [
 ]
 
 class RawSchool(models.Model):
-    name = models.CharField('Nombre', max_length=35, null=False)
-    street_name = models.CharField('Direccion', max_length=40)
-    street_number = models.IntegerField('Altura', null=False)
+    specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
+
+    name = models.CharField('Nombre', max_length=35, null=False, validators=[specialCharacters])
+    street_name = models.CharField('Direccion', max_length=40, validators=[specialCharacters])
+    street_number = models.PositiveIntegerField('Altura', null=False, validators=[MaxValueValidator(99999)])
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='group_location')
-    school_types = models.IntegerField('Tipo de escuela', choices=school_types, null=False)
+    school_types = models.PositiveIntegerField('Tipo de escuela', choices=school_types, null=False, validators=[MinValueValidator(0)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_school')
 
     def __str__(self):
@@ -116,7 +119,7 @@ group_role_choices = [
 
 
 class GroupRole(models.Model):
-    group_role_choices = models.IntegerField('Rol', choices=group_role_choices, default=0)
+    group_role_choices = models.PositiveIntegerField('Rol', choices=group_role_choices, default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='group_role')
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_role')
 
@@ -154,10 +157,10 @@ class PostAttachment(models.Model):
 
 
 class GroupToken(models.Model):
-    group_role_choices = models.IntegerField('Rol', choices=group_role_choices, default=0)
+    group_role_choices = models.PositiveIntegerField('Rol', choices=group_role_choices, default=0)
     ##token = token
     is_active = models.BooleanField('Activo', default=True)
-    max_uses = models.IntegerField('Usos maximos', null=True)
+    max_uses = models.PositiveIntegerField('Usos maximos', null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_token')
 
     def __str__(self):
@@ -180,19 +183,21 @@ grade_choices = [
 ]
 
 class RawParticipant(models.Model):
-    first_name = models.CharField('Nombre', max_length=15, null=False)
-    last_name = models.CharField('Apellido', max_length=15, null=False)
-    dni = models.CharField('Dni', max_length=12, null=False)
-    grade_choices = models.IntegerField('Año', choices=grade_choices, null=False)
+    specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
+
+    first_name = models.CharField('Nombre', max_length=15, null=False, validators=[specialCharacters])
+    last_name = models.CharField('Apellido', max_length=15, null=False, validators=[specialCharacters])
+    dni = models.PositiveIntegerField('Dni', null=False, validators=[MinValueValidator(10000000), MaxValueValidator(99999999)])
+    grade_choices = models.PositiveIntegerField('Año', choices=grade_choices, null=False, validators=[MinValueValidator(0)])
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='raw_participant')
 
     def __str__(self):
         return '{} {}, Dni Nº: {}'.format(self.first_name, self.last_name, self.dni)
 
 class RawContact(models.Model):
-    phone_number = PhoneField('Numero del tutor', null=False)
+    phone_number = models.PositiveIntegerField('Numero del tutor', null=False, validators=[MinValueValidator(1000000000), MaxValueValidator(9999999999)])
     alternative_email = models.EmailField('Mail del tutor alternativo', max_length=70, null=False)
-    alternative_phone_number = PhoneField('Numero del tutor alternativo', null=False)
+    alternative_phone_number = models.PositiveIntegerField('Numero del tutor alternativo', null=False, validators=[MinValueValidator(1000000000), MaxValueValidator(9999999999)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_contact')
 
     def __str__(self):
