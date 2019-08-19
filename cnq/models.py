@@ -1,7 +1,7 @@
 import datetime
 from django.conf import settings
 from django.db import models
-from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator, MaxValueValidator, MinLengthValidator
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
