@@ -1,7 +1,7 @@
 import datetime
 from django.conf import settings
 from django.db import models
-from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator, MaxValueValidator, MinLengthValidator
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -213,8 +213,9 @@ class Category(models.Model):
 
 
 class ProjectCategory(models.Model):
-    raw_project = models.ForeignKey(RawProject, on_delete=models.CASCADE, related_name='project_category')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='project_category')
+    raw_project = models.ForeignKey(RawProject, on_delete=models.CASCADE, related_name='raw_project')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='project_category')
 
     def __str__(self):
         return '{}, categoria: {}'.format(self.raw_project.name, self.category.name)

@@ -30,6 +30,12 @@ class StateSerializer(serializers.ModelSerializer):
         return state
 
 
+class ProjectCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectCategory
+        fields = ('id', 'category')
+
+
 class RawProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = RawProject
@@ -108,33 +114,31 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'description')
 
 
-class ProjectCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectCategory
-        fields = ('id', 'raw_project', 'category')
-
-
 class GroupSerializer(serializers.ModelSerializer):
     raw_school = RawSchoolSerializer()
     raw_project = RawProjectSerializer()
     raw_participant = RawParticipantSerializer(many=True)
     raw_contact = RawContactSerializer()
+    project_category = ProjectCategorySerializer(many=True)
 
     class Meta:
         model = Group
-        fields = ('raw_school', 'raw_project', 'raw_participant', 'raw_contact')
+        fields = ('raw_school', 'raw_project', 'raw_participant', 'raw_contact', 'project_category')
 
     def create(self, validated_data):
         raw_school_data = validated_data.pop('raw_school')
         raw_project_data = validated_data.pop('raw_project')
         raw_participant_data = validated_data.pop('raw_participant')
         raw_contact_data = validated_data.pop('raw_contact')
+        project_category_data = validated_data.pop('project_category')
 
         contest = Contest.objects.get(is_active=True)
         group = Group.objects.create(contest=contest, **validated_data)
         RawSchool.objects.create(group=group, **raw_school_data)
-        RawProject.objects.create(group=group, **raw_project_data)
+        raw_project = RawProject.objects.create(group=group, **raw_project_data)
         for raw_participant in raw_participant_data:
             RawParticipant.objects.create(group=group, **raw_participant)
         RawContact.objects.create(group=group, **raw_contact_data)
+        for project_category in project_category_data:
+            ProjectCategory.objects.create(group=group, raw_project=raw_project, **project_category)
         return group
