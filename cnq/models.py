@@ -42,7 +42,8 @@ class City(models.Model):
 
 class Group(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='group')
-
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user1')
+    #user2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user2', null=True)
     def __str__(self):
         return 'Concurso: {}'.format(self.contest.name)
 
@@ -55,6 +56,14 @@ diffusion = [
     (4, 'He participado en años anteriores'),
 ]
 
+class Category(models.Model):
+    name = models.CharField('Nombre', max_length=20, null=False)
+    description = models.CharField('Descripcion', max_length=40)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
 class RawProject(models.Model):
     specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
 
@@ -63,7 +72,7 @@ class RawProject(models.Model):
     solution = models.CharField('Solucion', max_length=150, null=False, validators=[specialCharacters])
     diffusion = models.PositiveIntegerField('Difusion', choices=diffusion, null=False, validators=[MaxValueValidator(4), MinValueValidator(1)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_project')
-     ##categories
+    category = models.ManyToManyField(Category, related_name='raw_project')
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -126,36 +135,6 @@ class GroupRole(models.Model):
     def __str__(self):
         return 'El usuario {} tiene el rol {} para el grupo {}'.format(self.user, self.group_role_choices, self.group)
 
-
-class GroupPost(models.Model):
-    body = models.CharField('Cuerpo', max_length=70)
-    title = models.CharField('Titulo', max_length=20)
-    group_role = models.ForeignKey(GroupRole, on_delete=models.CASCADE, related_name='group_post')
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_post')
-
-    def __str__(self):
-        return 'Titulo: {}, Cuerpo: {}, Grupo: {}'.format(self.title, self.body, self.group)
-
-
-class PostComment(models.Model):
-    body = models.CharField('Cuerpo', max_length=50)
-    group_role = models.ForeignKey(GroupRole, on_delete=models.CASCADE, related_name='post_comment')
-    group_post = models.ForeignKey(GroupPost, on_delete=models.CASCADE, related_name='post_comment')
-
-    def __str__(self):
-        return 'Cuerpo: {}, Post: {}'.format(self.body, self.group_post)
-
-
-class PostAttachment(models.Model):
-    group_post = models.ForeignKey(GroupPost, on_delete=models.CASCADE, related_name='post_attachment')
-
-    ##file_url = ??
-    ##file_type_choices = ??
-
-    def __str__(self):
-        return 'Post: {}'.format(self.group_post)
-
-
 class GroupToken(models.Model):
     group_role_choices = models.PositiveIntegerField('Rol', choices=group_role_choices, default=0)
     ##token = token
@@ -202,14 +181,6 @@ class RawContact(models.Model):
 
     def __str__(self):
         return '{}'.format(self.phone_number)
-
-
-class Category(models.Model):
-    name = models.CharField('Nombre', max_length=20, null=False)
-    description = models.CharField('Descripcion', max_length=40)
-
-    def __str__(self):
-        return '{}'.format(self.name)
 
 
 class ProjectCategory(models.Model):
