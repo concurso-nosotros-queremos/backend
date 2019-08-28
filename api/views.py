@@ -59,21 +59,6 @@ class GroupRoleViewSet(viewsets.ModelViewSet):
     serializer_class = GroupRoleSerializer
 
 
-class GroupPostViewSet(viewsets.ModelViewSet):
-    queryset = GroupPost.objects.all()
-    serializer_class = GroupPostSerializer
-
-
-class PostCommentViewSet(viewsets.ModelViewSet):
-    queryset = PostComment.objects.all()
-    serializer_class = PostCommentSerializer
-
-
-class PostAttachmentViewSet(viewsets.ModelViewSet):
-    queryset = PostAttachment.objects.all()
-    serializer_class = PostAttachmentSerializer
-
-
 class GroupTokenViewSet(viewsets.ModelViewSet):
     queryset = GroupToken.objects.all()
     serializer_class = GroupTokenSerializer

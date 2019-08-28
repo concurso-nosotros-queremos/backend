@@ -66,24 +66,6 @@ class GroupRoleSerializer(serializers.ModelSerializer):
         fields = ('id', 'group_role_choices', 'user', 'group')
 
 
-class GroupPostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GroupPost
-        fields = ('id', 'body', 'title', 'group_role', 'group')
-
-
-class PostCommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostComment
-        fields = ('id', 'body', 'group_role', 'group_post')
-
-
-class PostAttachmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostAttachment
-        fields = ('id', 'group_post')
-
-
 class GroupTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupToken
