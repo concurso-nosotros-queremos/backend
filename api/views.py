@@ -1,13 +1,6 @@
-from django.shortcuts import render
-from rest_framework.response import Response
 from rest_framework import viewsets
 from .serializers import *
 from cnq.models import *
-from rest_framework.permissions import IsAuthenticated
-from itertools import chain
-from .permissions import MyUserPermissions
-from rest_framework_guardian import filters
-from rest_framework import generics
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
