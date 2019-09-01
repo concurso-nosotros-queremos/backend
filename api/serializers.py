@@ -1,7 +1,9 @@
 from cnq.models import *
 from rest_framework import serializers
-
-
+from rest_framework_guardian.serializers import ObjectPermissionsAssignmentMixin
+from django.contrib.auth.models import Group as Group_user
+from django.contrib.auth.models import User
+from guardian.shortcuts import assign_perm
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contest
@@ -101,7 +103,6 @@ class GroupSerializer(serializers.ModelSerializer):
     raw_project = RawProjectSerializer()
     raw_participant = RawParticipantSerializer(many=True)
     raw_contact = RawContactSerializer()
-    #project_category = ProjectCategorySerializer(many=True)
 
     class Meta:
         model = Group
@@ -116,7 +117,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
         contest = Contest.objects.get(is_active=True)
-        user =  self.context['request'].user
+        user = self.context['request'].user
         group = Group.objects.create(contest=contest, user=user, **validated_data)
         RawSchool.objects.create(group=group, **raw_school_data)
         raw_project = RawProject.objects.create(group=group, **raw_project_data)
@@ -125,4 +126,8 @@ class GroupSerializer(serializers.ModelSerializer):
         RawContact.objects.create(group=group, **raw_contact_data)
         categories_obj = [Category.objects.get(id=category.id) for category in categories]
         raw_project.category.set(categories_obj)
+        a = User.objects.get(id=2)
+        b = User.objects.get(id=3)
+        assign_perm('view_group', a, group)
+        assign_perm('view_group', b, group)
         return group
