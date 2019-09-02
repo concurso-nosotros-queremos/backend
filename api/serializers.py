@@ -1,9 +1,9 @@
 from cnq.models import *
 from rest_framework import serializers
-from rest_framework_guardian.serializers import ObjectPermissionsAssignmentMixin
 from django.contrib.auth.models import Group as Group_user
 from django.contrib.auth.models import User
 from guardian.shortcuts import assign_perm
+
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contest

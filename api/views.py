@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from .serializers import *
 from cnq.models import *
+from .permissions import MyUserPermissions
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -21,7 +23,7 @@ class CityViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = (MyUserPermissions, )
+    permission_classes = (MyUserPermissions, IsAuthenticated, )
 
 
 class RawProjectViewSet(viewsets.ModelViewSet):
