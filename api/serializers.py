@@ -128,6 +128,6 @@ class GroupSerializer(serializers.ModelSerializer):
         raw_project.category.set(categories_obj)
         a = User.objects.get(id=2)
         b = User.objects.get(id=3)
-        assign_perm('view_group', a, group)
+        assign_perm('view_group', user, group)
         assign_perm('view_group', b, group)
         return group
