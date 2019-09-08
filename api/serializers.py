@@ -1,6 +1,8 @@
 from cnq.models import *
 from rest_framework import serializers
-
+from django.contrib.auth.models import Group as Group_user
+from django.contrib.auth.models import User
+from guardian.shortcuts import assign_perm
 
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -101,7 +103,6 @@ class GroupSerializer(serializers.ModelSerializer):
     raw_project = RawProjectSerializer()
     raw_participant = RawParticipantSerializer(many=True)
     raw_contact = RawContactSerializer()
-    #project_category = ProjectCategorySerializer(many=True)
 
     class Meta:
         model = Group
@@ -116,7 +117,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
         contest = Contest.objects.get(is_active=True)
-        user =  self.context['request'].user
+        user = self.context['request'].user
         group = Group.objects.create(contest=contest, user=user, **validated_data)
         RawSchool.objects.create(group=group, **raw_school_data)
         raw_project = RawProject.objects.create(group=group, **raw_project_data)
@@ -125,4 +126,48 @@ class GroupSerializer(serializers.ModelSerializer):
         RawContact.objects.create(group=group, **raw_contact_data)
         categories_obj = [Category.objects.get(id=category.id) for category in categories]
         raw_project.category.set(categories_obj)
+        b = User.objects.get(id=4)
+        assign_perm('view_group', user, group)
+        assign_perm('view_group', b, group)
         return group
+
+    def update(self, instance, validated_data):
+        #Raw_school
+        raw_school_data = validated_data.pop('raw_school')
+        instance.raw_school.name = raw_school_data.pop('name', instance.raw_school.name)
+        instance.raw_school.street_name = raw_school_data.pop('street_name', instance.raw_school.street_name)
+        instance.raw_school.street_number = raw_school_data.pop('street_number', instance.raw_school.street_number)
+        instance.raw_school.city = raw_school_data.pop('city', instance.raw_school.city)
+        instance.raw_school.school_types = raw_school_data.pop('school_types', instance.raw_school.school_types)
+        instance.raw_school.save()
+
+        #Raw_project
+        raw_project_data = validated_data.pop('raw_project')
+        instance.raw_project.name = raw_project_data.pop('name', instance.raw_project.name)
+        instance.raw_project.problem = raw_project_data.pop('problem', instance.raw_project.problem)
+        instance.raw_project.solution = raw_project_data.pop('solution', instance.raw_project.solution)
+        instance.raw_project.diffusion = raw_project_data.pop('diffusion', instance.raw_project.diffusion)
+        categories_obj = [Category.objects.get(id=category.id) for category in raw_project_data.pop('category', instance.raw_project.category.all())]
+        instance.raw_project.category.set(categories_obj)
+        instance.raw_project.save()
+
+        #Raw_participant
+        raw_participant_data = validated_data.pop('raw_participant')
+        participants = (instance.raw_participant).all()
+        participants = list(participants)
+        for participant_data in raw_participant_data:
+            participant = participants.pop(0)
+            participant.first_name = participant_data.get('first_name', participant.first_name)
+            participant.last_name = participant_data.get('last_name', participant.last_name)
+            participant.dni = participant_data.get('dni', participant.dni)
+            participant.grade_choices = participant_data.get('grade_choices', participant.grade_choices)
+            participant.save()
+
+        #Raw_contact
+        raw_contact_data = validated_data.pop('raw_contact')
+        instance.raw_contact.phone_number = raw_contact_data.pop('phone_number', instance.raw_contact.phone_number)
+        instance.raw_contact.alternative_email = raw_contact_data.pop('alternative_email', instance.raw_contact.alternative_email)
+        instance.raw_contact.alternative_phone_number = raw_contact_data.pop('alternative_phone_number', instance.raw_contact.alternative_phone_number)
+        instance.raw_contact.save()
+
+        return instance

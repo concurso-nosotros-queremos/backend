@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
-    'phone_field',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -147,6 +147,7 @@ AUTHENTICATION_BACKENDS = (
     # Facebook OAuth2
     'social_core.backends.facebook.FacebookAppOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
+    'guardian.backends.ObjectPermissionBackend',
 )
 
 # GOOGLE

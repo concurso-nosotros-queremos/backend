@@ -1,10 +1,9 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import *
 from cnq.models import *
+from .permissions import MyUserPermissions
 from rest_framework.permissions import IsAuthenticated
-from itertools import chain
-
+from guardian.shortcuts import get_objects_for_user
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -24,15 +23,10 @@ class CityViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (MyUserPermissions, IsAuthenticated, )
     def get_queryset(self):
-        user = self.request.user
-        if user.is_staff == 1:
-            group = Group.objects.all()
-        else:
-            group = Group.objects.filter(user=user) | Group.objects.filter(user2=user)
-        return group
-
+        groups = get_objects_for_user(self.request.user, 'cnq.view_group')
+        return groups
 
 class RawProjectViewSet(viewsets.ModelViewSet):
     queryset = RawProject.objects.all()
