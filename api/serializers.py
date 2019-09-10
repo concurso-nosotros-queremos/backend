@@ -8,7 +8,12 @@ import random, string
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contest
-        fields = ('id', 'is_active', 'name', 'date_from', 'date_to', 'inscription_date_from', 'inscription_date_to')
+        fields = ('id', 'is_active', 'name', 'date_from', 'date_to', 'inscription_date_from', 'inscription_date_to',)
+
+class ContestSerializerEnd(serializers.ModelSerializer):
+    class Meta:
+        model = Contest
+        fields = ('inscription_date_to',)
 
 
 class CitySerializer(serializers.ModelSerializer):

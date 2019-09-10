@@ -2,15 +2,23 @@ from rest_framework import viewsets
 from .serializers import *
 from cnq.models import *
 from .permissions import MyUserPermissions
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from guardian.shortcuts import get_objects_for_user
 from rest_framework import generics
+from rest_framework.response import Response
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
     queryset = Contest.objects.all()
     serializer_class = ContestSerializer
 
+
+class ContestEnd(viewsets.ViewSet):
+    permission_classes = (IsAdminUser, )
+    def list(self, request):
+        queryset = Contest.objects.filter(is_active=True)
+        serializer = ContestSerializerEnd(queryset, many=True)
+        return Response(serializer.data)
 
 class StateViewSet(viewsets.ModelViewSet):
     queryset = State.objects.all()
@@ -29,6 +37,16 @@ class GroupViewSet(viewsets.ModelViewSet):
         groups = get_objects_for_user(self.request.user, 'cnq.view_group')
         return groups
 
+
+class GroupCount(generics.ListAPIView):
+    serializer_class = GroupSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser )
+
+    def get(self, request, format=None):
+        groups = Group.objects.count()
+        content = {'total': groups}
+        return Response(content)
+        
 class RawProjectViewSet(viewsets.ModelViewSet):
     queryset = RawProject.objects.all()
     serializer_class = RawProjectSerializer
@@ -72,6 +90,15 @@ class TokenUsesViewSet(viewsets.ModelViewSet):
 class RawParticipantViewSet(viewsets.ModelViewSet):
     queryset = RawParticipant.objects.all()
     serializer_class = RawParticipantSerializer
+
+class RawParticipantCount(generics.ListAPIView):
+    serializer_class = RawParticipantSerializer
+    permission_classes = (IsAuthenticated, IsAdminUser)
+
+    def get(self, request, format=None):
+        participants = RawParticipant.objects.count()
+        content = {'total': participants}
+        return Response(content)
 
 
 class RawContactViewSet(viewsets.ModelViewSet):
