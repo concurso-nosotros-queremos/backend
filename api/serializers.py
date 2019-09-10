@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import Group as Group_user
 from django.contrib.auth.models import User
 from guardian.shortcuts import assign_perm
+import random, string
 
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -71,8 +72,35 @@ class GroupRoleSerializer(serializers.ModelSerializer):
 class GroupTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupToken
-        fields = ('id', 'group_role_choices', 'is_active', 'max_uses', 'group')
+        fields = ('is_active', 'max_uses', 'group')
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        group = validated_data.get('group')
+        if user.has_perm('view_group', group):
+            token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(7))
+            group_token = GroupToken.objects.create(user=user, token=token, **validated_data)
+            return group_token
+        else:
+            raise serializers.ValidationError("No tienes permisos para ejecutar esta accion") 
+
+class Token(object):
+    def __init__(self, **kwargs):
+        for field in ('id', 'token'):
+            setattr(self, field, kwargs.get(field, None))
+
+class TokenSerializer(serializers.Serializer):
+    token = serializers.CharField(max_length = 7)
+
+    def create(self, validated_data):
+        token = Token(id=None, **validated_data)
+        user = self.context['request'].user
+        for group_token in [GroupToken.objects.get(id=token.id) for token in GroupToken.objects.all()]:
+            if group_token.token == token.token:
+                group = group_token.group
+                assign_perm('view_group', user, group)
+                raise serializers.ValidationError("Acceso garantizado")
+        raise serializers.ValidationError("Acceso denegado")
 
 class TokenUsesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -128,7 +156,6 @@ class GroupSerializer(serializers.ModelSerializer):
         raw_project.category.set(categories_obj)
         b = User.objects.get(id=4)
         assign_perm('view_group', user, group)
-        assign_perm('view_group', b, group)
         return group
 
     def update(self, instance, validated_data):

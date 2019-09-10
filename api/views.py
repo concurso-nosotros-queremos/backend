@@ -4,6 +4,7 @@ from cnq.models import *
 from .permissions import MyUserPermissions
 from rest_framework.permissions import IsAuthenticated
 from guardian.shortcuts import get_objects_for_user
+from rest_framework import generics
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -56,6 +57,11 @@ class GroupRoleViewSet(viewsets.ModelViewSet):
 class GroupTokenViewSet(viewsets.ModelViewSet):
     queryset = GroupToken.objects.all()
     serializer_class = GroupTokenSerializer
+    permission_classes = (IsAuthenticated, )
+
+class CheckToken(generics.CreateAPIView):
+    serializer_class = TokenSerializer
+    permission_classes = (IsAuthenticated, )
 
 
 class TokenUsesViewSet(viewsets.ModelViewSet):

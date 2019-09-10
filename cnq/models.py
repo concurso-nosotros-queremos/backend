@@ -136,11 +136,11 @@ class GroupRole(models.Model):
         return 'El usuario {} tiene el rol {} para el grupo {}'.format(self.user, self.group_role_choices, self.group)
 
 class GroupToken(models.Model):
-    group_role_choices = models.PositiveIntegerField('Rol', choices=group_role_choices, default=0)
-    ##token = token
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
+    token = models.CharField('Token', max_length=7, null=False, unique=True)
     is_active = models.BooleanField('Activo', default=True)
     max_uses = models.PositiveIntegerField('Usos maximos', null=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group_token')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='group')
 
     def __str__(self):
         return 'Token del grupo {}'.format(self.group)

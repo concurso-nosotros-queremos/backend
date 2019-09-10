@@ -23,4 +23,5 @@ router.register(r'raw_contact', RawContactViewSet, base_name='raw_contact')
 urlpatterns = [
     path('auth/', include('rest_framework_social_oauth2.urls')),
     path('rest/', include(router.urls)),
+    path('rest/check/', CheckToken.as_view(), name='check')
 ]
