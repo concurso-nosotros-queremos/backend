@@ -154,7 +154,6 @@ class GroupSerializer(serializers.ModelSerializer):
         RawContact.objects.create(group=group, **raw_contact_data)
         categories_obj = [Category.objects.get(id=category.id) for category in categories]
         raw_project.category.set(categories_obj)
-        b = User.objects.get(id=4)
         assign_perm('view_group', user, group)
         return group
 
