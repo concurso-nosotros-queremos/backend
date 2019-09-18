@@ -25,6 +25,8 @@ urlpatterns = [
     path('auth/', include('rest_framework_social_oauth2.urls')),
     path('rest/', include(router.urls)),
     path('rest/check/', CheckToken.as_view(), name='check'),
-    path('rest/group_total/', GroupCount.as_view(), name='group_total'),
-    path('rest/participant_total/', RawParticipantCount.as_view(), name='participant_total')
+    path('rest/group_info/total/', GroupCount.as_view(), name='group_total'),
+    path('rest/participant_info/total/', RawParticipantCount.as_view(), name='participant_total'),
+    path('rest/group_info/city/', GroupCity.as_view(), name='group_city'),
+    path('rest/group_info/state/', GroupState.as_view(), name='group_state')
 ]

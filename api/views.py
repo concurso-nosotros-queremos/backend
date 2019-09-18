@@ -46,6 +46,33 @@ class GroupCount(generics.ListAPIView):
         groups = Group.objects.count()
         content = {'total': groups}
         return Response(content)
+
+        
+class GroupCity(generics.ListAPIView):
+    serializer_class = GroupSerializer
+
+    def get_queryset(self):
+        city = self.request.query_params.get('city', None)
+        queryset = Group.objects.all()
+        if city is not None:
+            raw_school_queryset = RawSchool.objects.filter(city__name__icontains=city)
+            ids = [s.group.id for s in raw_school_queryset]
+            queryset = queryset.filter(id__in=ids)
+        return queryset
+
+
+class GroupState(generics.ListAPIView):
+    serializer_class = GroupSerializer
+
+    def get_queryset(self):
+        state = self.request.query_params.get('state', None)
+        queryset = Group.objects.all()
+        if state is not None:
+            raw_school_queryset = RawSchool.objects.filter(city__state__name__icontains=state)
+            ids = [s.group.id for s in raw_school_queryset]
+            queryset = queryset.filter(id__in=ids)
+        return queryset
+        
         
 class RawProjectViewSet(viewsets.ModelViewSet):
     queryset = RawProject.objects.all()
