@@ -51,10 +51,12 @@ class RawProjectSerializer(serializers.ModelSerializer):
 
 
 class RawSchoolSerializer(serializers.ModelSerializer):
+    city_name = serializers.CharField(source="city.name", read_only=True)
+    state_name = serializers.CharField(source="city.state.name", read_only=True)
+
     class Meta:
         model = RawSchool
-        fields = ('id', 'name', 'street_name', 'street_number', 'city', 'school_types')
-
+        fields = ('id', 'name', 'street_name', 'street_number', 'city', 'city_name', 'state_name', 'school_types')
 
 class ContestWinnerSerializer(serializers.ModelSerializer):
     class Meta:
