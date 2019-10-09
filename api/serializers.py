@@ -44,10 +44,7 @@ class ProjectCategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'category')
 
 
-class RawProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RawProject
-        fields = ('id', 'name', 'problem', 'solution', 'diffusion', 'category')
+
 
 
 class RawSchoolSerializer(serializers.ModelSerializer):
@@ -132,6 +129,12 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('id', 'name', 'description')
 
+
+class RawProjectSerializer(serializers.ModelSerializer):
+    category_name = CategorySerializer(source="category", many=True, read_only=True)
+    class Meta:
+        model = RawProject
+        fields = ('id', 'name', 'problem', 'solution', 'diffusion', 'category', 'category_name')
 
 class GroupSerializer(serializers.ModelSerializer):
     raw_school = RawSchoolSerializer()
