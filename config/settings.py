@@ -160,6 +160,9 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '5fb733793d0f868cfaaa2b882de7ca6e'
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:5000',
+    'http://cnq-frontend.herokuapp.com',
+    'https://concursonosotrosqueremos.netlify.com',
+    'https://cnq-frontend.herokuapp.com',
 )
 CORS_ALLOW_CREDENTIALS = True
 
