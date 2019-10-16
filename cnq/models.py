@@ -85,7 +85,6 @@ school_types = [
     (3, 'Tecnica Privada'),
     (4, 'Escuela Rural'),
     (5, 'Residencia'),
-    (6, 'Tecnica Privada'),
     ##Others
 ]
 
