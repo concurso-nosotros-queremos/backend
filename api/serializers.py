@@ -139,6 +139,25 @@ class RawProjectSerializer(serializers.ModelSerializer):
         model = RawProject
         fields = ('id', 'name', 'problem', 'solution', 'diffusion', 'category', 'category_name', 'diffusion_name')
 
+from django.core.mail import EmailMessage
+from django.conf import settings
+
+class MessageEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageEmail
+        fields = ('name', 'email', 'message')
+    
+    def create(self, validated_data):
+        memail = MessageEmail.objects.create(**validated_data)
+        email = EmailMessage(
+            subject='Title',
+            body= "Nombre: " + validated_data.get('name') + ", Email: " + validated_data.get('email') + ", Mensaje: " + validated_data.get('message'),
+            from_email=settings.EMAIL_HOST_USER,
+            to=['jcmare18@gmail.com']
+        )
+        email.send()
+        return memail
+
 class GroupSerializer(serializers.ModelSerializer):
     raw_school = RawSchoolSerializer()
     raw_project = RawProjectSerializer()

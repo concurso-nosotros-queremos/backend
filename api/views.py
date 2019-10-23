@@ -1,11 +1,14 @@
 from rest_framework import viewsets
 from .serializers import *
+from .serializers import MessageEmailSerializer
 from cnq.models import *
 from .permissions import MyUserPermissions
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from guardian.shortcuts import get_objects_for_user
 from rest_framework import generics
 from rest_framework.response import Response
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -141,3 +144,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProjectCategoryViewSet(viewsets.ModelViewSet):
     queryset = ProjectCategory.objects.all()
     serializer_class = ProjectCategorySerializer
+
+
+class MessageEmailViewSet(viewsets.ModelViewSet):
+    queryset = MessageEmail.objects.all()
+    serializer_class = MessageEmailSerializer
