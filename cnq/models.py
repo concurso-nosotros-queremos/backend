@@ -70,7 +70,7 @@ class RawProject(models.Model):
     name = models.CharField('Nombre', max_length=30, null=False, validators=[specialCharacters])
     problem = models.CharField('Problema', max_length=70, null=False, validators=[specialCharacters])
     solution = models.CharField('Solucion', max_length=150, null=False, validators=[specialCharacters])
-    diffusion = models.PositiveIntegerField('Difusion', choices=diffusion, null=False, validators=[MaxValueValidator(4), MinValueValidator(1)])
+    diffusion = models.PositiveIntegerField('Difusion', choices=diffusion, null=False, validators=[MaxValueValidator(4), MinValueValidator(0)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_project')
     category = models.ManyToManyField(Category, related_name='raw_project')
 
@@ -85,7 +85,6 @@ school_types = [
     (3, 'Tecnica Privada'),
     (4, 'Escuela Rural'),
     (5, 'Residencia'),
-    (6, 'Tecnica Privada'),
     ##Others
 ]
 

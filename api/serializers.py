@@ -8,7 +8,12 @@ import random, string
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contest
-        fields = ('id', 'is_active', 'name', 'date_from', 'date_to', 'inscription_date_from', 'inscription_date_to')
+        fields = ('id', 'is_active', 'name', 'date_from', 'date_to', 'inscription_date_from', 'inscription_date_to',)
+
+class ContestSerializerEnd(serializers.ModelSerializer):
+    class Meta:
+        model = Contest
+        fields = ('inscription_date_to',)
 
 
 class CitySerializer(serializers.ModelSerializer):
@@ -39,17 +44,17 @@ class ProjectCategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'category')
 
 
-class RawProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RawProject
-        fields = ('id', 'name', 'problem', 'solution', 'diffusion', 'category')
+
 
 
 class RawSchoolSerializer(serializers.ModelSerializer):
+    city_name = serializers.CharField(source="city.name", read_only=True)
+    state_name = serializers.CharField(source="city.state.name", read_only=True)
+    school_types_name = serializers.CharField(source="get_school_types_display", read_only=True)
+
     class Meta:
         model = RawSchool
-        fields = ('id', 'name', 'street_name', 'street_number', 'city', 'school_types')
-
+        fields = ('id', 'name', 'street_name', 'street_number', 'city', 'city_name', 'state_name', 'school_types', 'school_types_name')
 
 class ContestWinnerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -125,6 +130,14 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('id', 'name', 'description')
 
+
+class RawProjectSerializer(serializers.ModelSerializer):
+    category_name = CategorySerializer(source="category", many=True, read_only=True)
+    diffusion_name = serializers.CharField(source="get_diffusion_display", read_only=True)
+
+    class Meta:
+        model = RawProject
+        fields = ('id', 'name', 'problem', 'solution', 'diffusion', 'category', 'category_name', 'diffusion_name')
 
 class GroupSerializer(serializers.ModelSerializer):
     raw_school = RawSchoolSerializer()

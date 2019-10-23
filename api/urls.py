@@ -19,9 +19,14 @@ router.register(r'raw_participant', RawParticipantViewSet, base_name='raw_partic
 router.register(r'category', CategoryViewSet, base_name='category')
 router.register(r'project_category', ProjectCategoryViewSet, base_name='project_category')
 router.register(r'raw_contact', RawContactViewSet, base_name='raw_contact')
+router.register(r'contest_end', ContestEnd, base_name='contest_end')
 
 urlpatterns = [
     path('auth/', include('rest_framework_social_oauth2.urls')),
     path('rest/', include(router.urls)),
-    path('rest/check/', CheckToken.as_view(), name='check')
+    path('rest/check/', CheckToken.as_view(), name='check'),
+    path('rest/group_info/total/', GroupCount.as_view(), name='group_total'),
+    path('rest/participant_info/total/', RawParticipantCount.as_view(), name='participant_total'),
+    path('rest/group_info/city/', GroupCity.as_view(), name='group_city'),
+    path('rest/group_info/state/', GroupState.as_view(), name='group_state')
 ]
