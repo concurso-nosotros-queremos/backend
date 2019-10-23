@@ -16,5 +16,6 @@ admin.site.register(RawProject)
 admin.site.register(Category)
 admin.site.register(ProjectCategory)
 admin.site.register(TokenUses)
+admin.site.register(MessageEmail)
 
 
