@@ -4,6 +4,8 @@ from django.contrib.auth.models import Group as Group_user
 from django.contrib.auth.models import User
 from guardian.shortcuts import assign_perm
 import random, string
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -138,6 +140,25 @@ class RawProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = RawProject
         fields = ('id', 'name', 'problem', 'solution', 'diffusion', 'category', 'category_name', 'diffusion_name')
+
+
+
+class MessageEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageEmail
+        fields = ('name', 'email', 'message', 'date')
+    
+    def create(self, validated_data):
+        memail = MessageEmail.objects.create(**validated_data)
+        email = EmailMessage(
+            subject='Duda CNQ',
+            body= "Nombre: " + validated_data.get('name') + ", Email: " + validated_data.get('email') + ", Mensaje: " + validated_data.get('message'),
+            from_email=settings.EMAIL_HOST_USER,
+            to=[validated_data.get('email')]
+        )
+        email.send()
+        return memail
+
 
 class GroupSerializer(serializers.ModelSerializer):
     raw_school = RawSchoolSerializer()

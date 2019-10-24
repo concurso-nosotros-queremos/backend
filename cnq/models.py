@@ -2,9 +2,19 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
+from datetime import datetime
 
 # Create your models here.
 
+class MessageEmail(models.Model):
+    name = models.CharField('Nombre', max_length=30, null=False)
+    email = models.EmailField('Email', max_length=50, null=False)
+    message = models.CharField('Mensaje', max_length=240, null=False)
+    date = models.DateTimeField(auto_now_add=True, null=False)
+
+    def __str__(self):
+        return 'Nombre: {}, Email: {}, Fecha: {}'.format(self.name, self.email, self.date)
+    
 class Contest(models.Model):
     is_active = models.BooleanField('Vigente', default=False)
     name = models.CharField('Nombre del concurso', max_length=30, null=False)
