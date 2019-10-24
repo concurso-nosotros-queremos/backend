@@ -154,7 +154,7 @@ class MessageEmailSerializer(serializers.ModelSerializer):
             subject='Duda CNQ',
             body= "Nombre: " + validated_data.get('name') + ", Email: " + validated_data.get('email') + ", Mensaje: " + validated_data.get('message'),
             from_email=settings.EMAIL_HOST_USER,
-            to=['jcmare18@gmail.com']
+            to=[validated_data.get('email')]
         )
         email.send()
         return memail
