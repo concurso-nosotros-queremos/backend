@@ -164,6 +164,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://cnq-frontend.herokuapp.com',
     'https://concursonosotrosqueremos.netlify.com',
     'https://cnq-frontend.herokuapp.com',
+    'http://127.0.0.1:3000'
 )
 CORS_ALLOW_CREDENTIALS = True
 
