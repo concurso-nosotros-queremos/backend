@@ -46,9 +46,6 @@ class ProjectCategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'category')
 
 
-
-
-
 class RawSchoolSerializer(serializers.ModelSerializer):
     city_name = serializers.CharField(source="city.name", read_only=True)
     state_name = serializers.CharField(source="city.state.name", read_only=True)
@@ -168,7 +165,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = ('raw_school', 'raw_project', 'raw_participant', 'raw_contact')
+        fields = ('id', 'raw_school', 'raw_project', 'raw_participant', 'raw_contact')
 
     def create(self, validated_data):
         raw_school_data = validated_data.pop('raw_school')
@@ -212,16 +209,15 @@ class GroupSerializer(serializers.ModelSerializer):
         instance.raw_project.save()
 
         #Raw_participant
+        print(instance.id)
+        raw_participants = RawParticipant.objects.filter(group=instance.id)
+        raw_participants.delete()
         raw_participant_data = validated_data.pop('raw_participant')
-        participants = (instance.raw_participant).all()
-        participants = list(participants)
-        for participant_data in raw_participant_data:
-            participant = participants.pop(0)
-            participant.first_name = participant_data.get('first_name', participant.first_name)
-            participant.last_name = participant_data.get('last_name', participant.last_name)
-            participant.dni = participant_data.get('dni', participant.dni)
-            participant.grade_choices = participant_data.get('grade_choices', participant.grade_choices)
-            participant.save()
+
+        for raw_participant in raw_participant_data:
+            RawParticipant.objects.create(group=instance, **raw_participant)
+
+
 
         #Raw_contact
         raw_contact_data = validated_data.pop('raw_contact')
