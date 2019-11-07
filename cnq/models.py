@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from datetime import datetime
-
+from django.db import DataError
 # Create your models here.
 
 class MessageEmail(models.Model):
@@ -24,9 +24,9 @@ class Contest(models.Model):
     inscription_date_to = models.DateTimeField('Inscripcion_hasta', null=False)
 
     def save(self, *args, **kwargs):
-        if Contest.objects.filter(is_active=True):
+        if Contest.objects.filter(is_active=True).exclude(id=self.id):
             if self.is_active is True:
-                self.is_active = None
+                raise DataError('No se puede tener mas de un grupo activo en simultaneo')
         super(Contest, self).save(*args, **kwargs)
 
     def __str__(self):
