@@ -15,7 +15,7 @@ class ContestSerializer(serializers.ModelSerializer):
 class ContestSerializerEnd(serializers.ModelSerializer):
     class Meta:
         model = Contest
-        fields = ('inscription_date_to',)
+        fields = ('id', 'inscription_date_to',)
 
 
 class CitySerializer(serializers.ModelSerializer):
