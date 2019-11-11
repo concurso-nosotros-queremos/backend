@@ -20,6 +20,6 @@ class ContestPermissions(permissions.BasePermission):
         contest = Contest.objects.get(is_active=True)
         now = datetime.datetime.now().strftime("%m %d %Y %H:%M:%S")
         end = contest.inscription_date_to.strftime("%m %d %Y %H:%M:%S")
-        if view.action == 'post' or now > end:
+        if view.action == 'create' and now > end:
             return False
         return True
