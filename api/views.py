@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from .serializers import *
 from .serializers import MessageEmailSerializer
 from cnq.models import *
-from .permissions import MyUserPermissions
+from .permissions import MyUserPermissions, ContestPermissions
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from guardian.shortcuts import get_objects_for_user
 from rest_framework import generics
@@ -35,7 +35,7 @@ class CityViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
-    permission_classes = (MyUserPermissions, IsAuthenticated, )
+    permission_classes = (MyUserPermissions, IsAuthenticated, ContestPermissions)
     def get_queryset(self):
         groups = get_objects_for_user(self.request.user, 'cnq.view_group')
         return groups

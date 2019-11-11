@@ -1,4 +1,7 @@
 from rest_framework import permissions
+from cnq.models import *
+import datetime
+from django.db import Error
 
 class MyUserPermissions(permissions.BasePermission):
 
@@ -11,3 +14,12 @@ class MyUserPermissions(permissions.BasePermission):
         elif user == obj.user:
             return True
         return user.has_perm('view_group', obj)
+
+class ContestPermissions(permissions.BasePermission):
+    def has_permission(self, request, view):
+        contest = Contest.objects.get(is_active=True)
+        now = datetime.datetime.now().strftime("%m %d %Y %H:%M:%S")
+        end = contest.inscription_date_to.strftime("%m %d %Y %H:%M:%S")
+        if view.action == 'post' or now > end:
+            return False
+        return True

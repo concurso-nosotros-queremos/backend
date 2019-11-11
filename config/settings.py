@@ -145,9 +145,6 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',  # for Google authentication
     'django.contrib.auth.backends.ModelBackend',
-    # Facebook OAuth2
-    'social_core.backends.facebook.FacebookAppOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
     'guardian.backends.ObjectPermissionBackend',
 )
 
@@ -155,8 +152,6 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '246477987916-97olebrvqhp82rki0n5h17u679m4tmpi.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '0-8hCK2e3lv6M9XtF-JovAmu'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '2533488746670930'
-SOCIAL_AUTH_FACEBOOK_SECRET = '5fb733793d0f868cfaaa2b882de7ca6e'
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
