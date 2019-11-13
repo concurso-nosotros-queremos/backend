@@ -153,15 +153,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '246477987916-97olebrvqhp82rki0n5h17u679m4tmpi.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '0-8hCK2e3lv6M9XtF-JovAmu'
 
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://localhost:5000',
-    'http://cnq-frontend.herokuapp.com',
-    'https://concursonosotrosqueremos.netlify.com',
-    'https://cnq-frontend.herokuapp.com',
-    'http://127.0.0.1:3000',
-    'https://nosotrosqueremos.tk'
-)
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 #DJANGO OAUTH TOOLKIT EXPIRATION SECONDS  - DEFAULT IS 36000 WHICH IS 10 hours
