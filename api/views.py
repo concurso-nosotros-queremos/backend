@@ -9,6 +9,10 @@ from rest_framework import generics
 from rest_framework.response import Response
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.contrib.auth.models import User
+from oauth2_provider.models import *
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.exceptions import APIException
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -111,6 +115,26 @@ class CheckToken(generics.CreateAPIView):
     serializer_class = TokenSerializer
     permission_classes = (IsAuthenticated, )
 
+
+class MissingTokenException(APIException):
+    status_code = 401
+    default_detail = 'Token expirado'
+    default_code = 'expired_token'
+class UserInfoToken(generics.ListAPIView):
+    serializer_class = UserInfoSerializer
+    
+    def get_queryset(self):
+        token = self.kwargs['token']
+
+        try:
+            userToken = AccessToken.objects.get(token=token)
+            if str(userToken.expires) > str(datetime.now()):
+                user = User.objects.filter(id=userToken.user.id)
+                return user
+            else:
+                raise MissingTokenException
+        except ObjectDoesNotExist:
+            raise ObjectDoesNotExist("ObjectDoesNotExist para el token" + token)
 
 class TokenUsesViewSet(viewsets.ModelViewSet):
     queryset = TokenUses.objects.all()

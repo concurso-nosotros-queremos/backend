@@ -29,5 +29,6 @@ urlpatterns = [
     path('rest/group_info/total/', GroupCount.as_view(), name='group_total'),
     path('rest/participant_info/total/', RawParticipantCount.as_view(), name='participant_total'),
     path('rest/group_info/city/', GroupCity.as_view(), name='group_city'),
-    path('rest/group_info/state/', GroupState.as_view(), name='group_state')
+    path('rest/group_info/state/', GroupState.as_view(), name='group_state'),
+    path('rest/user_info/<str:token>/', UserInfoToken.as_view(), name='user_info')
 ]
