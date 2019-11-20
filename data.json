@@ -1,0 +1,895 @@
+[
+  {
+    "model": "cnq.contest",
+    "pk": 1,
+    "fields": {
+      "is_active": true,
+      "name": "Concurso 2019",
+      "date_from": "2019-11-12T12:21:12.472Z",
+      "date_to": "2029-11-12T12:21:12.472Z",
+      "inscription_date_from": "2029-11-12T12:21:12.472Z",
+      "inscription_date_to": "2029-11-12T12:21:12.472Z"
+    }
+  },
+  {
+    "model": "cnq.contest",
+    "pk": 2,
+    "fields": {
+      "is_active": true,
+      "name": "The Lost Boy",
+      "date_from": "2019-03-12T12:00:12.472Z",
+      "date_to": "2020-03-12T12:00:12.472Z",
+      "inscription_date_from": "2019-3-12T12:00:12.472Z",
+      "inscription_date_to": "2020-3-12T12:00:12.472Z"
+    }
+  },
+  {
+    "model": "cnq.contest",
+    "pk": 3,
+    "fields": {
+      "is_active": true,
+      "name": "Friends",
+      "date_from": "2019-04-12T12:41:12.472Z",
+      "date_to": "2020-04-12T12:21:41.472Z",
+      "inscription_date_from": "2019-4-12T12:41:12.472Z",
+      "inscription_date_to": "2020-4-12T12:21:41.472Z"
+    }
+  },
+  {
+    "model": "cnq.contest",
+    "pk": 4,
+    "fields": {
+      "is_active": true,
+      "name": "Inoportunos",
+      "date_from": "2019-05-12T12:01:12.472Z",
+      "date_to": "2020-05-12T12:01:12.472Z",
+      "inscription_date_from": "2019-5-12T12:01:12.472Z",
+      "inscription_date_to": "2020-5-12T12:01:12.472Z"
+    }
+  },
+  {
+    "model": "cnq.contest",
+    "pk": 5,
+    "fields": {
+      "is_active": true,
+      "name": "El Escuadron Secreto",
+      "date_from": "2019-06-12T12:30:12.472Z",
+      "date_to": "2020-06-12T12:30:12.472Z",
+      "inscription_date_from": "2019-06-12T12:30:12.472Z",
+      "inscription_date_to": "2020-06-12T12:30:12.472Z"
+    }
+  },
+  {
+    "model": "cnq.contest",
+    "pk": 6,
+    "fields": {
+      "is_active": true,
+      "name": "Game Over",
+      "date_from": "2019-07-12T12:21:12.472Z",
+      "date_to": "2020-07-12T12:21:12.472Z",
+      "inscription_date_from": "2019-07-12T12:21:12.472Z",
+      "inscription_date_to": "2020-07-12T12:21:12.472Z"
+    }
+  },
+
+
+  {
+    "model": "cnq.group",
+    "pk": 1,
+    "fields": {
+      "contest": 1,
+      "user": 1
+    }
+  },
+  {
+    "model": "cnq.group",
+    "pk": 2,
+    "fields": {
+      "contest": 2,
+      "user": 1
+    }
+  },
+  {
+    "model": "cnq.group",
+    "pk": 3,
+    "fields": {
+      "contest": 3,
+      "user": 1
+    }
+  },
+  {
+    "model": "cnq.group",
+    "pk": 4,
+    "fields": {
+      "contest": 4,
+      "user": 1
+    }
+  },
+  {
+    "model": "cnq.group",
+    "pk": 5,
+    "fields": {
+      "contest": 5,
+      "user": 1
+    }
+  },
+  {
+    "model": "cnq.group",
+    "pk": 6,
+    "fields": {
+      "contest": 6,
+      "user": 1
+    }
+  },
+
+  {
+    "model": "cnq.rawparticipant",
+    "pk": 1,
+    "fields":{
+      "first_name": "Ivan",
+      "last_name": "Valdez",
+      "dni": 43123201,
+      "grade_choices": 4,
+      "group": 3
+    }
+  },
+    {
+    "model": "cnq.rawparticipant",
+    "pk": 2,
+    "fields":{
+      "first_name": "Juan",
+      "last_name": "Garcia",
+      "dni": 43121202,
+      "grade_choices": 4,
+      "group": 3
+    }
+  },
+    {
+    "model": "cnq.rawparticipant",
+    "pk": 3,
+    "fields":{
+      "first_name": "Ruben",
+      "last_name": "Alvarez",
+      "dni": 43123203,
+      "grade_choices": 4,
+      "group": 3
+    }
+  },
+    {
+    "model": "cnq.rawparticipant",
+    "pk": 4,
+    "fields":{
+      "first_name": "Facundo",
+      "last_name": "Aldosi",
+      "dni": 43123204,
+      "grade_choices": 4,
+      "group": 3
+    }
+  },
+    {
+    "model": "cnq.rawparticipant",
+    "pk": 5,
+    "fields":{
+      "first_name": "Leonardo",
+      "last_name": "Molordo",
+      "dni": 43123205,
+      "grade_choices": 4,
+      "group": 3
+    }
+  },
+    {
+    "model": "cnq.rawparticipant",
+    "pk": 6,
+    "fields":{
+      "first_name": "Martin",
+      "last_name": "Rodriguez",
+      "dni": 43123206,
+      "grade_choices": 4,
+      "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 7,
+  "fields":{
+    "first_name": "Lolo",
+    "last_name": "Rodriguez",
+    "dni": 43123207,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 8,
+  "fields":{
+    "first_name": "Mateo",
+    "last_name": "Gonzales",
+    "dni": 43123208,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 9,
+  "fields":{
+    "first_name": "Daniel",
+    "last_name": "Fernandez",
+    "dni": 43123209,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 10,
+  "fields":{
+    "first_name": "Pablo",
+    "last_name": "Perez",
+    "dni": 43123210,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 11,
+  "fields":{
+    "first_name": "Alvaro",
+    "last_name": "Lopez",
+    "dni": 43123211,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 12,
+  "fields":{
+    "first_name": "Adrian",
+    "last_name": "Rodriguez",
+    "dni": 43123212,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 13,
+  "fields":{
+    "first_name": "David",
+    "last_name": "Martinez",
+    "dni": 43123213,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 14,
+  "fields":{
+    "first_name": "Diego",
+    "last_name": "Sanchez",
+    "dni": 43123214,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 15,
+  "fields":{
+    "first_name": "Javier",
+    "last_name": "Gomez",
+    "dni": 43123215,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 16,
+  "fields":{
+    "first_name": "Javier",
+    "last_name": "Alvarez",
+    "dni": 43123216,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 17,
+  "fields":{
+    "first_name": "Mario",
+    "last_name": "Martins",
+    "dni": 43123217,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 18,
+  "fields":{
+    "first_name": "Sergio",
+    "last_name": "Diaz",
+    "dni": 43123218,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 19,
+  "fields":{
+    "first_name": "Marcos",
+    "last_name": "Alonso",
+    "dni": 43123219,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 20,
+  "fields":{
+    "first_name": "Manuel",
+    "last_name": "Ruiz",
+    "dni": 43123220,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 21,
+  "fields":{
+    "first_name": "Martin",
+    "last_name": "Hernandez",
+    "dni": 43123221,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 22,
+  "fields":{
+    "first_name": "Nicolas",
+    "last_name": "Gutierrez",
+    "dni": 43123222,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 23,
+  "fields":{
+    "first_name": "Jorge",
+    "last_name": "Blanco",
+    "dni": 43123223,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 24,
+  "fields":{
+    "first_name": "Ivan",
+    "last_name": "Jimenez",
+    "dni": 43123224,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 25,
+  "fields":{
+    "first_name": "Carlos",
+    "last_name": "Moreno",
+    "dni": 43123225,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 26,
+  "fields":{
+    "first_name": "Miguel",
+    "last_name": "Muñoz",
+    "dni": 43123226,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 27,
+  "fields":{
+    "first_name": "Lucas",
+    "last_name": "Vasquez",
+    "dni": 43123227,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 28,
+  "fields":{
+    "first_name": "Santiago",
+    "last_name": "Gil",
+    "dni": 43123228,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 29,
+  "fields":{
+    "first_name": "Matias",
+    "last_name": "Dominguez",
+    "dni": 43123229,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 30,
+  "fields":{
+    "first_name": "Angel",
+    "last_name": "Castro", 
+    "dni": 43123230,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 31,
+  "fields":{
+    "first_name": "Fabricio",
+    "last_name": "Ramos",
+    "dni": 43123231,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 32,
+  "fields":{
+    "first_name": "Santino",
+    "last_name": "Romero",
+    "dni": 43123232,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 33,
+  "fields":{
+    "first_name": "Alonzo",
+    "last_name": "Torres",
+    "dni": 43123233,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 34,
+  "fields":{
+    "first_name": "Adriano",
+    "last_name": "Iglesias",
+    "dni": 43123234,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 35,
+  "fields":{
+    "first_name": "Carlos",
+    "last_name": "Adriano",
+    "dni": 43123235,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 36,
+  "fields":{
+    "first_name": "Donato",
+    "last_name": "Rubio",
+    "dni": 43123236,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 37,
+  "fields":{
+    "first_name": "Federico",
+    "last_name": "Serrano",
+    "dni": 43123237,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 38,
+  "fields":{
+    "first_name": "Lorenzo",
+    "last_name": "Santos",
+    "dni": 43123238,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 39,
+  "fields":{
+    "first_name": "Guido",
+    "last_name": "Calvo",
+    "dni": 43123239,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 40,
+  "fields":{
+    "first_name": "Luigi",
+    "last_name": "Prieto",
+    "dni": 43123240,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 41,
+  "fields":{
+    "first_name": "Leonardo",
+    "last_name": "Suarez",
+    "dni": 43123241,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 42,
+  "fields":{
+    "first_name": "Luciano",
+    "last_name": "Ortiz",
+    "dni": 43123242,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 43,
+  "fields":{
+    "first_name": "Patricio",
+    "last_name": "Ortega",
+    "dni": 43123243,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 44,
+  "fields":{
+    "first_name": "Mauricio",
+    "last_name": "Delgado",
+    "dni": 43123244,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 45,
+  "fields":{
+    "first_name": "Piero",
+    "last_name": "Sanz",
+    "dni": 43123245,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 46,
+  "fields":{
+    "first_name": "Romeo",
+    "last_name": "Diez",
+    "dni": 43123246,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 47,
+  "fields":{
+    "first_name": "Hector",
+    "last_name": "Mendez",
+    "dni": 43123247,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 48,
+  "fields":{
+    "first_name": "Ulises",
+    "last_name": "Peña",
+    "dni": 43123248,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 49,
+  "fields":{
+    "first_name": "Tristan",
+    "last_name": "Vidal",
+    "dni": 43123249,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 50,
+  "fields":{
+    "first_name": "Sofia",
+    "last_name": "Garrido",
+    "dni": 43123250,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 51,
+  "fields":{
+    "first_name": "Lucia",
+    "last_name": "Morales",
+    "dni": 43123251,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 52,
+  "fields":{
+    "first_name": "Alejandra",
+    "last_name": "Vega",
+    "dni": 43123252,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 53,
+  "fields":{
+    "first_name": "Maria",
+    "last_name": "Lorenzo",
+    "dni": 43123253,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 54,
+  "fields":{
+    "first_name": "Maria",
+    "last_name": "Castillo",
+    "dni": 43123254,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 55,
+  "fields":{
+    "first_name": "Daniela",
+    "last_name": "Gallego",
+    "dni": 43123255,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 56,
+  "fields":{
+    "first_name": "Valeria",
+    "last_name": "Lozano",
+    "dni": 43123256,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 57,
+  "fields":{
+    "first_name": "Tomas",
+    "last_name": "Molina",
+    "dni": 43123257,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 58,
+  "fields":{
+    "first_name": "Julia",
+    "last_name": "Cruz",
+    "dni": 43123258,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 59,
+  "fields":{
+    "first_name": "Juan Cruz",
+    "last_name": "Salinas",
+    "dni": 43123259,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 60,
+  "fields":{
+    "first_name": "Alba",
+    "last_name": "Ramirez",
+    "dni": 43123260,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 61,
+  "fields":{
+    "first_name": "Claudia",
+    "last_name": "Fuentes",
+    "dni": 43123261,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 62,
+  "fields":{
+    "first_name": "Isabella",
+    "last_name": "Herrero",
+    "dni": 43123262,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 63,
+  "fields":{
+    "first_name": "Anabella",
+    "last_name": "Alvarez",
+    "dni": 43123263,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 64,
+  "fields":{
+    "first_name": "Rocio",
+    "last_name": "Barrionuevo",
+    "dni": 43123264,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 65,
+  "fields":{
+    "first_name": "Ludmila Nahir",
+    "last_name": "Oviedo",
+    "dni": 43123265,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 66,
+  "fields":{
+    "first_name": "Lucila",
+    "last_name": "Acosta",
+    "dni": 43123266,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 67,
+  "fields":{
+    "first_name": "Maria Jose",
+    "last_name": "Figueroa",
+    "dni": 43123267,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 68,
+  "fields":{
+    "first_name": "Agustina",
+    "last_name": "Sosa",
+    "dni": 43123268,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 69,
+  "fields":{
+    "first_name": "Martina",
+    "last_name": "Hidalgo",
+    "dni": 43123269,
+    "grade_choices": 4,
+    "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 70,
+  "fields":{
+    "first_name": "Julieta",
+    "last_name": "Vacaro",
+    "dni": 43123270,
+    "grade_choices": 4,
+    "group": 3
+    }
+  }
+]
