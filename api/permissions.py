@@ -16,6 +16,7 @@ class MyUserPermissions(permissions.BasePermission):
         return user.has_perm('view_group', obj)
 
 class ContestPermissions(permissions.BasePermission):
+    message = 'Las inscripciones han finalizado'
     def has_permission(self, request, view):
         contest = Contest.objects.get(is_active=True)
         now = datetime.datetime.now().strftime("%m %d %Y %H:%M:%S")

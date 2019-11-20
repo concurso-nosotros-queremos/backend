@@ -53,7 +53,6 @@ class City(models.Model):
 class Group(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='group')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user1')
-    #user2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user2', null=True)
     def __str__(self):
         return 'Concurso: {}'.format(self.contest.name)
 
