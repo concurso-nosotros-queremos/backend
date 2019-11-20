@@ -106,10 +106,10 @@ class TokenSerializer(serializers.Serializer):
                 raise serializers.ValidationError("Acceso garantizado")
         raise serializers.ValidationError("Acceso denegado")
 
-class UserInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
+class UserInfoSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    is_staff = serializers.BooleanField()
+    is_superuser = serializers.BooleanField()
 
 class TokenUsesSerializer(serializers.ModelSerializer):
     class Meta:

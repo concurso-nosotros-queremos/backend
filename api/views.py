@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from oauth2_provider.models import *
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import APIException
+from rest_framework.views import APIView
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -26,6 +27,7 @@ class ContestEnd(viewsets.ViewSet):
         queryset = Contest.objects.filter(is_active=True)
         serializer = ContestSerializerEnd(queryset, many=True)
         return Response(serializer.data)
+
 
 class StateViewSet(viewsets.ModelViewSet):
     queryset = State.objects.all()
@@ -111,6 +113,7 @@ class GroupTokenViewSet(viewsets.ModelViewSet):
     serializer_class = GroupTokenSerializer
     permission_classes = (IsAuthenticated, )
 
+
 class CheckToken(generics.CreateAPIView):
     serializer_class = TokenSerializer
     permission_classes = (IsAuthenticated, )
@@ -120,21 +123,27 @@ class MissingTokenException(APIException):
     status_code = 401
     default_detail = 'Token expirado'
     default_code = 'expired_token'
-class UserInfoToken(generics.ListAPIView):
-    serializer_class = UserInfoSerializer
-    
-    def get_queryset(self):
-        token = self.kwargs['token']
 
+
+class UserInfoToken(APIView):
+    def get(self, request, token):
         try:
             userToken = AccessToken.objects.get(token=token)
             if str(userToken.expires) > str(datetime.now()):
-                user = User.objects.filter(id=userToken.user.id)
-                return user
+                user = User.objects.get(id=userToken.user.id)
+                group = Group.objects.filter(user=userToken.user.id).count()
+                obj = {'id': user.id, 
+                    'username': user.username,
+                    'is_active': user.is_active, 
+                    'is_superuser': user.is_superuser,
+                    'is_staff': user.is_staff, 
+                    'group_count': group}
+                return Response(obj)
             else:
                 raise MissingTokenException
         except ObjectDoesNotExist:
             raise ObjectDoesNotExist("ObjectDoesNotExist para el token" + token)
+
 
 class TokenUsesViewSet(viewsets.ModelViewSet):
     queryset = TokenUses.objects.all()
