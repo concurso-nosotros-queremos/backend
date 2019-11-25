@@ -17,7 +17,7 @@ def PDFGeneral(request):
 
         #Modelos
         escuelas = RawSchool.objects.all()
-        concurso = Contest.objects.all()
+        concurso = Contest.objects.filter(is_active=True)
         cantidad_grupos = Group.objects.count()
         proyecto = RawProject.objects.all()
         
@@ -30,7 +30,6 @@ def PDFGeneral(request):
             'difusion': proyecto,
             'diffusion_count': {}
         }
-        print(RawProject.DIFFUSION)
                 
         tipo = []
         for proyectos in proyecto:
