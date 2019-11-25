@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from rest_framework import viewsets
 from .serializers import *
 from .serializers import MessageEmailSerializer
@@ -9,6 +11,15 @@ from rest_framework import generics
 from rest_framework.response import Response
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.generic import View
+from templates import *
+from weasyprint import HTML
+import tempfile
+from django.template.loader import render_to_string
+from itertools import groupby
+
 
 # Create your views here.
 class ContestViewSet(viewsets.ModelViewSet):
@@ -149,3 +160,63 @@ class ProjectCategoryViewSet(viewsets.ModelViewSet):
 class MessageEmailViewSet(viewsets.ModelViewSet):
     queryset = MessageEmail.objects.all()
     serializer_class = MessageEmailSerializer
+
+
+def PDFGeneral(request):
+
+        #Modelos
+        escuelas = RawSchool.objects.all()
+        concurso = Contest.objects.filter(is_active=True)
+        cantidad_grupos = Group.objects.count()
+        proyecto = RawProject.objects.all()
+        
+        
+        datos = {
+            'tipo_escuela': escuelas,
+            'datos_concurso': concurso,
+            'cantidad_grupos': cantidad_grupos,
+            'nombre_proyecto': proyecto,
+            'difusion': proyecto,
+            'diffusion_count': {}
+        }
+                
+        tipo = []
+        for proyectos in proyecto:
+            tipo.append(proyectos.get_diffusion_display())
+            
+        for k in RawProject.DIFFUSION:
+            datos['diffusion_count'][k[1]] = 0
+
+        for i in tipo:
+            datos['diffusion_count'][i] = tipo.count(i)        
+        print(datos)
+
+        #Response
+        rendered_html = render_to_string('export_contest.html', datos)
+        response = HttpResponse(content_type='application/pdf')
+        pdf = HTML(string=rendered_html).write_pdf(response, presentational_hints=True)
+        return response
+    
+def PDFEspecifico(request, id):
+
+        #Modelos
+        contact = RawContact.objects.get(group=id)
+        escuelas = RawSchool.objects.get(group=id)
+        proyecto = RawProject.objects.get(group=id)
+        participant = RawParticipant.objects.filter(group=id)
+
+        print(participant)
+        datos = {
+            'contact': contact,
+            'school': escuelas,
+            'project': proyecto,
+            'participant': participant,
+            'category': proyecto.category.all().values('name')
+            
+        }
+
+        #Response
+        rendered_html = render_to_string('export_group.html', datos)
+        response = HttpResponse(content_type='application/pdf')
+        pdf = HTML(string=rendered_html).write_pdf(response, presentational_hints=True)
+        return response
