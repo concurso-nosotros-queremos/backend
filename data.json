@@ -71,8 +71,6 @@
       "inscription_date_to": "2020-07-12T12:21:12.472Z"
     }
   },
-
-
   {
     "model": "cnq.group",
     "pk": 1,
@@ -106,22 +104,49 @@
     }
   },
   {
-    "model": "cnq.group",
-    "pk": 5,
+    "model": "cnq.rawProject",
+    "pk": 1,
     "fields": {
-      "contest": 5,
-      "user": 1
+      "name": "Salud",
+      "problem": "Los sectores de la salud pública y hasta mismo la privada en Latinoamérica tienen muchas debilidades. Están obsoletos, poco eficientes y muchas veces son muy costosos.",
+      "solution": "volver los medicamentos más accesibles a la gente. Lo logramos mediante una reducción de costos a través de crear relaciones directas entre los laboratorios y los consumidores",
+      "diffusion": 2,
+      "group": 1
     }
   },
   {
-    "model": "cnq.group",
-    "pk": 6,
+    "model": "cnq.rawProject",
+    "pk": 2,
     "fields": {
-      "contest": 6,
-      "user": 1
+      "name": "ReservasTurn", 
+      "problem": "Hay muchas veces que nosotros necesitamos ir a la peluqueria o salones de belleza pero no tenemos tiempo de ir y sacar un turno",
+      "solution": " la app te permite reservar turno para peluquerías y salones de belleza, en cualquier momento del día y con un solo “touch”",
+      "diffusion": 2,
+      "group": 2
     }
   },
-
+  {
+    "model": "cnq.rawProject",
+    "pk": 3,
+    "fields": {
+      "name": "KnowCard",
+      "problem": "Usualmete tenemos problemas con nuestras tarjetas de credito, por ejemplo no nos entra un pago o no pasa la terjeta",
+      "solution": "Nuesto obejtivo es potenciar con soluciones tecnológicas los negocios de latinoamérica y conectarlos entre sí, La app te brinda toda la info que necesitás sobre tus tarjeta de crédito.",
+      "diffusion": 3,
+      "group": 3
+    }
+  },
+  {
+    "model": "cnq.rawProject",
+    "pk": 4,
+    "fields": {
+      "name": "Clinget",
+      "problem": "Muchas veces cuando estamos de viaje y necesitamos uan consulta medica no la podemos realizar por un cierto motivo o necesitas encontrar un medico que te atienda pero neccesitas tu historial medico y no lo tenes",
+      "solution": "Ahora encontrar a los mejores profesionales, guardar tus estudios y turnos y hasta chatear con tus médicos de confianza se puede hacer desde cualquier dispositivo y con una sola app",
+      "diffusion": 1,
+      "group": 4
+    }
+  },
   {
     "model": "cnq.rawparticipant",
     "pk": 1,
