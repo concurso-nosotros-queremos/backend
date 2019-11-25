@@ -1,0 +1,58 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>CNQ</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      border: 1px solid;
+      margin: 0 auto;
+      width: 70%;
+    }
+
+    td,
+    th {
+      text-align: center;
+      border: 1px solid;
+    }
+  </style>
+</head>
+
+<body>
+  {% for c in datos_concurso%}
+  <h2 align="center">{{c.name}}</h2>
+  {% endfor %}
+  <h4>Concurso:</h4>
+  {% for d in datos_concurso%}
+  <p>Inicio de concurso: {{d.date_from}}</p>
+  <p>Fin de concurso: {{d.date_to}}</p>
+  <h4>Inscripciones:</h4>
+  <p>Inicio de incripciones: {{d.inscription_date_from}}<p>
+  <p>Cierre de inscripciones: {{d.inscription_date_to}}<p>
+  {% endfor %}
+  <h4>Cantidad de grupos inscriptos: {{cantidad_grupos}}</h4>
+  <h4>¿Cómo conocieron el concurso?</h4>
+  {% for k, i in diffusion_count.items %}
+  <p>{{k}}: {{i}} grupo/s</p>
+  {% endfor %}
+  <h4>PROYECTOS:</h4>
+  <table>
+    <thead>
+      <tr>
+        <td>PROYECTO</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in nombre_proyecto%}
+      <tr>
+        <td>{{a.name}}</td>
+      {% endfor %}  
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

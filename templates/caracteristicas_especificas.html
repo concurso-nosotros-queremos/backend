@@ -1,0 +1,92 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>CNQ</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      border: 1px solid;
+      margin: 0 auto;
+      width: 70%;
+    }
+
+    td,
+    th {
+      text-align: center;
+      border: 1px solid;
+    }
+  </style>
+</head>
+<body>
+  <br>
+  <table>
+  Datos proyecto:
+  <thead>
+      <tr>
+        <td>PROYECTO</td>
+        <td>CATEGORIA</td>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>{{project}}</td>
+        <td>
+            {% for c in category %} 
+            {{c.name}}
+            {% endfor %}
+        </td>
+      </tr>
+  </tbody>
+  </table>
+  <table>
+    Participantes:
+    <thead>
+      <tr>
+        <td>NOMBRE</td>
+        <td>DNI</td>
+        <td>AÑO</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in participant %}
+      <tr>
+        <td>{{p.first_name}} {{p.last_name}}</td>
+        <td>{{p.dni}}</td>
+        <td>{{p.get_grade_choices_display}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+    Datos escuela:
+    <table>
+    <thead>
+      <tr>
+        <td>NOMBRE ESCUELA</td>
+        <td>TIPO DE ESCUELA</td>
+        <td>DIRECCION</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{school.name}}</td>
+        <td>{{school.get_school_types_display}}</td>
+        <td>{{school.street_name}}</td>
+      </tr>
+    </tbody>
+    </table>
+    <h4>{{school.city.state}} </h4>
+    <h4></h4>
+    <h4>¿Cómo conocieron el concurso?:</h4>
+    <p>{{project.get_diffusion_display}}</p>
+    <h4>Problema presentado:</h4>
+    <p>{{project.problem}}</p>
+    <h4>Solucion presentada:</h4>
+    <p>{{project.solution}}</p>
+    <h4>Contacto:</h4>
+    <p>{{contact}}</p>
+</body>
+</html>

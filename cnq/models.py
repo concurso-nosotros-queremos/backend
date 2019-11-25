@@ -58,13 +58,6 @@ class Group(models.Model):
         return 'Concurso: {}'.format(self.contest.name)
 
 
-diffusion = [
-    (0, 'Mail'),
-    (1, 'Afiches del concurso'),
-    (2, 'Redes Sociales'),
-    (3, 'Medios de comunicacion tradicionales'),
-    (4, 'He participado en años anteriores'),
-]
 
 class Category(models.Model):
     name = models.CharField('Nombre', max_length=20, null=False)
@@ -76,11 +69,18 @@ class Category(models.Model):
 
 class RawProject(models.Model):
     specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
+    DIFFUSION = [
+        (0, 'Mail'),
+        (1, 'Afiches del concurso'),
+        (2, 'Redes Sociales'),
+        (3, 'Medios de comunicacion tradicionales'),
+        (4, 'He participado en años anteriores'),
+    ]
 
     name = models.CharField('Nombre', max_length=30, null=False, validators=[specialCharacters])
     problem = models.CharField('Problema', max_length=70, null=False, validators=[specialCharacters])
     solution = models.CharField('Solucion', max_length=150, null=False, validators=[specialCharacters])
-    diffusion = models.PositiveIntegerField('Difusion', choices=diffusion, null=False, validators=[MaxValueValidator(4), MinValueValidator(0)])
+    diffusion = models.PositiveIntegerField('Difusion', choices=DIFFUSION, null=False, validators=[MaxValueValidator(4), MinValueValidator(0)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_project')
     category = models.ManyToManyField(Category, related_name='raw_project')
 
