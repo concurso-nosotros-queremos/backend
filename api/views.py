@@ -34,6 +34,7 @@ class ContestViewSet(viewsets.ModelViewSet):
 
 class ContestEnd(viewsets.ViewSet):
     permission_classes = (IsAdminUser, )
+
     def list(self, request):
         queryset = Contest.objects.filter(is_active=True)
         serializer = ContestSerializerEnd(queryset, many=True)
@@ -52,7 +53,9 @@ class CityViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
-    permission_classes = (MyUserPermissions, IsAuthenticated, ContestPermissions)
+    permission_classes = (
+        MyUserPermissions, IsAuthenticated, ContestPermissions)
+
     def get_queryset(self):
         groups = get_objects_for_user(self.request.user, 'cnq.view_group')
         return groups
@@ -60,14 +63,14 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class GroupCount(generics.ListAPIView):
     serializer_class = GroupSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser )
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
     def get(self, request, format=None):
         groups = Group.objects.count()
         content = {'total': groups}
         return Response(content)
 
-        
+
 class GroupCity(generics.ListAPIView):
     serializer_class = GroupSerializer
 
@@ -92,8 +95,8 @@ class GroupState(generics.ListAPIView):
             ids = [s.group.id for s in raw_school_queryset]
             queryset = queryset.filter(id__in=ids)
         return queryset
-        
-        
+
+
 class RawProjectViewSet(viewsets.ModelViewSet):
     queryset = RawProject.objects.all()
     serializer_class = RawProjectSerializer
@@ -143,17 +146,18 @@ class UserInfoToken(APIView):
             if str(userToken.expires) > str(datetime.now()):
                 user = User.objects.get(id=userToken.user.id)
                 group = Group.objects.filter(user=userToken.user.id).count()
-                obj = {'id': user.id, 
+                obj = {'id': user.id,
                     'username': user.username,
-                    'is_active': user.is_active, 
+                    'is_active': user.is_active,
                     'is_superuser': user.is_superuser,
-                    'is_staff': user.is_staff, 
+                    'is_staff': user.is_staff,
                     'group_count': group}
                 return Response(obj)
             else:
                 raise MissingTokenException
         except ObjectDoesNotExist:
-            raise ObjectDoesNotExist("ObjectDoesNotExist para el token" + token)
+            raise ObjectDoesNotExist(
+                "ObjectDoesNotExist para el token " + token)
 
 
 class TokenUsesViewSet(viewsets.ModelViewSet):
@@ -164,6 +168,7 @@ class TokenUsesViewSet(viewsets.ModelViewSet):
 class RawParticipantViewSet(viewsets.ModelViewSet):
     queryset = RawParticipant.objects.all()
     serializer_class = RawParticipantSerializer
+
 
 class RawParticipantCount(generics.ListAPIView):
     serializer_class = RawParticipantSerializer
@@ -195,15 +200,14 @@ class MessageEmailViewSet(viewsets.ModelViewSet):
     serializer_class = MessageEmailSerializer
 
 
-def PDFGeneral(request):
+def PDFGeneral(request, token):
 
-        #Modelos
+        # Modelos
         escuelas = RawSchool.objects.all()
         concurso = Contest.objects.filter(is_active=True)
         cantidad_grupos = Group.objects.count()
         proyecto = RawProject.objects.all()
-        
-        
+
         datos = {
             'tipo_escuela': escuelas,
             'datos_concurso': concurso,
@@ -212,27 +216,37 @@ def PDFGeneral(request):
             'difusion': proyecto,
             'diffusion_count': {}
         }
-                
+
         tipo = []
         for proyectos in proyecto:
             tipo.append(proyectos.get_diffusion_display())
-            
+
         for k in RawProject.DIFFUSION:
             datos['diffusion_count'][k[1]] = 0
 
         for i in tipo:
-            datos['diffusion_count'][i] = tipo.count(i)        
+            datos['diffusion_count'][i] = tipo.count(i)
         print(datos)
 
-        #Response
-        rendered_html = render_to_string('export_contest.html', datos)
-        response = HttpResponse(content_type='application/pdf')
-        pdf = HTML(string=rendered_html).write_pdf(response, presentational_hints=True)
-        return response
-    
-def PDFEspecifico(request, id):
+        # Response
+        try:
+            userToken = AccessToken.objects.get(token=token)
+            if str(userToken.expires) > str(datetime.now()):
+                rendered_html = render_to_string('export_contest.html', datos)
+                response = HttpResponse(content_type='application/pdf')
+                pdf = HTML(string=rendered_html).write_pdf(
+                    response, presentational_hints=True)
+                return response
+            else:
+                raise MissingTokenException
+        except ObjectDoesNotExist:
+            raise ObjectDoesNotExist(
+                "ObjectDoesNotExist para el token " + token)
 
-        #Modelos
+
+def PDFEspecifico(request, id, token):
+
+        # Modelos
         contact = RawContact.objects.get(group=id)
         escuelas = RawSchool.objects.get(group=id)
         proyecto = RawProject.objects.get(group=id)
@@ -245,11 +259,18 @@ def PDFEspecifico(request, id):
             'project': proyecto,
             'participant': participant,
             'category': proyecto.category.all().values('name')
-            
+
         }
 
-        #Response
-        rendered_html = render_to_string('export_group.html', datos)
-        response = HttpResponse(content_type='application/pdf')
-        pdf = HTML(string=rendered_html).write_pdf(response, presentational_hints=True)
-        return response
+        # Response
+        try:
+            userToken = AccessToken.objects.get(token=token)
+            if str(userToken.expires) > str(datetime.now()):
+                rendered_html = render_to_string('export_group.html', datos)
+                response = HttpResponse(content_type='application/pdf')
+                pdf = HTML(string=rendered_html).write_pdf(response, presentational_hints=True)
+                return response
+            else:
+                raise MissingTokenException
+        except ObjectDoesNotExist:
+            raise ObjectDoesNotExist("ObjectDoesNotExist para el token " + token)

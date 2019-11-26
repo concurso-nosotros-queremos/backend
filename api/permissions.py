@@ -19,8 +19,8 @@ class ContestPermissions(permissions.BasePermission):
     message = 'Las inscripciones han finalizado'
     def has_permission(self, request, view):
         contest = Contest.objects.get(is_active=True)
-        now = datetime.datetime.now().strftime("%m %d %Y %H:%M:%S")
-        end = contest.inscription_date_to.strftime("%m %d %Y %H:%M:%S")
+        now = datetime.datetime.now().isoformat()
+        end = contest.inscription_date_to.isoformat()
         if view.action == 'create' and now > end:
             return False
         return True

@@ -31,6 +31,6 @@ urlpatterns = [
     path('rest/group_info/city/', GroupCity.as_view(), name='group_city'),
     path('rest/group_info/state/', GroupState.as_view(), name='group_state'),
     path('rest/user_info/<str:token>/', UserInfoToken.as_view(), name='user_info'),
-    path('rest/export/contest/', PDFGeneral, name='contest_pdf'),
-    path('rest/export/group/<int:id>', PDFEspecifico, name='group_ pdf')
+    path('rest/export/contest/<str:token>/', PDFGeneral, name='contest_pdf'),
+    path('rest/export/group/<int:id>/<str:token>/', PDFEspecifico, name='group_ pdf')
 ]
