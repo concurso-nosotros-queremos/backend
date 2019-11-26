@@ -48,27 +48,18 @@
     }
   },
   {
-    "model": "cnq.contest",
-    "pk": 5,
+    "model": "cnq.state",
+    "pk": 1,
     "fields": {
-      "is_active": true,
-      "name": "El Escuadron Secreto",
-      "date_from": "2019-06-12T12:30:12.472Z",
-      "date_to": "2020-06-12T12:30:12.472Z",
-      "inscription_date_from": "2019-06-12T12:30:12.472Z",
-      "inscription_date_to": "2020-06-12T12:30:12.472Z"
+      "name": "Cordoba"
     }
   },
   {
-    "model": "cnq.contest",
-    "pk": 6,
+    "model": "cnq.city",
+    "pk": 1,
     "fields": {
-      "is_active": true,
-      "name": "Game Over",
-      "date_from": "2019-07-12T12:21:12.472Z",
-      "date_to": "2020-07-12T12:21:12.472Z",
-      "inscription_date_from": "2019-07-12T12:21:12.472Z",
-      "inscription_date_to": "2020-07-12T12:21:12.472Z"
+      "name": "Cordoba",
+      "state": 1
     }
   },
   {
@@ -104,6 +95,62 @@
     }
   },
   {
+    "model": "cnq.category",
+    "pk": 1,
+    "fields": {
+      "name": "Medio Ambiente"
+    }
+  },
+  {
+    "model": "cnq.category",
+    "pk": 2,
+    "fields": {
+      "name": "Menores"
+    }
+  },
+  {
+    "model": "cnq.category",
+    "pk": 3,
+    "fields": {
+      "name": "Espacio de uso común"
+    }
+  },
+  {
+    "model": "cnq.category",
+    "pk": 4,
+    "fields": {
+      "name": "Género"
+    }
+  },
+  {
+    "model": "cnq.category",
+    "pk": 5,
+    "fields": {
+      "name": "Adicciones"
+    }
+  },
+  {
+    "model": "cnq.category",
+    "pk": 6,
+    "fields": {
+      "name": "Tercera edad"
+    }
+  },
+  {
+    "model": "cnq.category",
+    "pk": 7,
+    "fields": {
+      "name": "Seguridad vial"
+    }
+  },
+  {
+    "model": "cnq.category",
+    "pk": 8,
+    "fields": {
+      "name": "Otro"
+    }
+  },
+  {
     "model": "cnq.rawProject",
     "pk": 1,
     "fields": {
@@ -111,7 +158,8 @@
       "problem": "Los sectores de la salud pública y hasta mismo la privada en Latinoamérica tienen muchas debilidades. Están obsoletos, poco eficientes y muchas veces son muy costosos.",
       "solution": "volver los medicamentos más accesibles a la gente. Lo logramos mediante una reducción de costos a través de crear relaciones directas entre los laboratorios y los consumidores",
       "diffusion": 2,
-      "group": 1
+      "group": 1,
+      "category": [6, 2] 
     }
   },
   {
@@ -122,7 +170,8 @@
       "problem": "Hay muchas veces que nosotros necesitamos ir a la peluqueria o salones de belleza pero no tenemos tiempo de ir y sacar un turno",
       "solution": " la app te permite reservar turno para peluquerías y salones de belleza, en cualquier momento del día y con un solo “touch”",
       "diffusion": 2,
-      "group": 2
+      "group": 2,
+      "category": [3]
     }
   },
   {
@@ -133,7 +182,8 @@
       "problem": "Usualmete tenemos problemas con nuestras tarjetas de credito, por ejemplo no nos entra un pago o no pasa la terjeta",
       "solution": "Nuesto obejtivo es potenciar con soluciones tecnológicas los negocios de latinoamérica y conectarlos entre sí, La app te brinda toda la info que necesitás sobre tus tarjeta de crédito.",
       "diffusion": 3,
-      "group": 3
+      "group": 3,
+      "category": [4, 7]
     }
   },
   {
@@ -144,6 +194,95 @@
       "problem": "Muchas veces cuando estamos de viaje y necesitamos uan consulta medica no la podemos realizar por un cierto motivo o necesitas encontrar un medico que te atienda pero neccesitas tu historial medico y no lo tenes",
       "solution": "Ahora encontrar a los mejores profesionales, guardar tus estudios y turnos y hasta chatear con tus médicos de confianza se puede hacer desde cualquier dispositivo y con una sola app",
       "diffusion": 1,
+      "group": 4,
+      "category": [8, 6, 2]
+    }
+  },
+  {
+    "model": "cnq.rawSchool",
+    "pk": 1,
+    "fields": {
+      "name": "San Pedro Apostol",
+      "street_name": "Duarte Quiros",
+      "street_number": 4600,
+      "school_types": 0,
+      "city": 1,
+      "group": 1
+    }
+  },
+  {
+    "model": "cnq.rawSchool",
+    "pk": 2,
+      "fields": {
+      "name": "La Inmaculada",
+      "street_name": "Entre Rios",
+      "street_number": 142,
+      "school_types": 1,
+      "city": 1,
+      "group": 2
+    }
+  },
+  {
+    "model": "cnq.rawSchool",
+    "pk": 3,
+    "fields": {
+      "name": "San Buenaventura",
+      "street_name": "Las Palmas",
+      "street_number": 5001,
+      "school_types": 4,
+      "city": 1,
+      "group": 3
+    }
+  },
+  {
+    "model": "cnq.rawSchool",
+    "pk": 4,
+    "fields": {
+      "name": "San Jose",
+      "street_name": "Independecia",
+      "street_number": 302,
+      "school_types": 5,
+      "city": 1,
+      "group": 4
+    }
+  },
+  {
+    "model": "cnq.rawContact",
+    "pk": 1,
+    "fields": {
+      "phone_number": 3512759421,
+      "alternative_email": "leonor.araya@gmail.com",
+      "alternative_phone_number": 3512759422,
+      "group": 1
+    }
+  },
+  {
+    "model": "cnq.rawContact",
+    "pk": 2,
+    "fields": {
+      "phone_number": 3512759423,
+      "alternative_email": "andrea.geoplanet@gmail.com",
+      "alternative_phone_number": 3512759424,
+      "group": 2
+    }
+  },
+  {
+    "model": "cnq.rawContact",
+    "pk": 3,
+    "fields": {
+      "phone_number": 3512759424,
+      "alternative_email": "carlosarteagaprof@gmail.com",
+      "alternative_phone_number": 3512759425,
+      "group": 3
+    }
+  },
+  {
+    "model": "cnq.rawContact",
+    "pk": 3,
+    "fields": {
+      "phone_number": 3512759425,
+      "alternative_email": "oscar.brito@gmail.com",
+      "alternative_phone_number": 3512759426,
       "group": 4
     }
   },
@@ -154,7 +293,7 @@
       "first_name": "Ivan",
       "last_name": "Valdez",
       "dni": 43123201,
-      "grade_choices": 4,
+      "grade_choices": 3,
       "group": 3
     }
   },
@@ -165,7 +304,7 @@
       "first_name": "Juan",
       "last_name": "Garcia",
       "dni": 43121202,
-      "grade_choices": 4,
+      "grade_choices": 3,
       "group": 3
     }
   },
@@ -176,7 +315,7 @@
       "first_name": "Ruben",
       "last_name": "Alvarez",
       "dni": 43123203,
-      "grade_choices": 4,
+      "grade_choices": 3,
       "group": 3
     }
   },
@@ -187,7 +326,7 @@
       "first_name": "Facundo",
       "last_name": "Aldosi",
       "dni": 43123204,
-      "grade_choices": 4,
+      "grade_choices": 3,
       "group": 3
     }
   },
@@ -198,7 +337,7 @@
       "first_name": "Leonardo",
       "last_name": "Molordo",
       "dni": 43123205,
-      "grade_choices": 4,
+      "grade_choices": 3,
       "group": 3
     }
   },
@@ -209,7 +348,7 @@
       "first_name": "Martin",
       "last_name": "Rodriguez",
       "dni": 43123206,
-      "grade_choices": 4,
+      "grade_choices": 3,
       "group": 3
     }
   },
@@ -220,7 +359,7 @@
     "first_name": "Lolo",
     "last_name": "Rodriguez",
     "dni": 43123207,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -231,7 +370,7 @@
     "first_name": "Mateo",
     "last_name": "Gonzales",
     "dni": 43123208,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -242,7 +381,7 @@
     "first_name": "Daniel",
     "last_name": "Fernandez",
     "dni": 43123209,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -253,7 +392,7 @@
     "first_name": "Pablo",
     "last_name": "Perez",
     "dni": 43123210,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -264,7 +403,7 @@
     "first_name": "Alvaro",
     "last_name": "Lopez",
     "dni": 43123211,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -275,7 +414,7 @@
     "first_name": "Adrian",
     "last_name": "Rodriguez",
     "dni": 43123212,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -286,7 +425,7 @@
     "first_name": "David",
     "last_name": "Martinez",
     "dni": 43123213,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -297,7 +436,7 @@
     "first_name": "Diego",
     "last_name": "Sanchez",
     "dni": 43123214,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -308,7 +447,7 @@
     "first_name": "Javier",
     "last_name": "Gomez",
     "dni": 43123215,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -319,7 +458,7 @@
     "first_name": "Javier",
     "last_name": "Alvarez",
     "dni": 43123216,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -330,7 +469,7 @@
     "first_name": "Mario",
     "last_name": "Martins",
     "dni": 43123217,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -341,7 +480,7 @@
     "first_name": "Sergio",
     "last_name": "Diaz",
     "dni": 43123218,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -352,7 +491,7 @@
     "first_name": "Marcos",
     "last_name": "Alonso",
     "dni": 43123219,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -363,7 +502,7 @@
     "first_name": "Manuel",
     "last_name": "Ruiz",
     "dni": 43123220,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -374,7 +513,7 @@
     "first_name": "Martin",
     "last_name": "Hernandez",
     "dni": 43123221,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -385,7 +524,7 @@
     "first_name": "Nicolas",
     "last_name": "Gutierrez",
     "dni": 43123222,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -396,7 +535,7 @@
     "first_name": "Jorge",
     "last_name": "Blanco",
     "dni": 43123223,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -407,7 +546,7 @@
     "first_name": "Ivan",
     "last_name": "Jimenez",
     "dni": 43123224,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -418,7 +557,7 @@
     "first_name": "Carlos",
     "last_name": "Moreno",
     "dni": 43123225,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -429,7 +568,7 @@
     "first_name": "Miguel",
     "last_name": "Muñoz",
     "dni": 43123226,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -440,7 +579,7 @@
     "first_name": "Lucas",
     "last_name": "Vasquez",
     "dni": 43123227,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -451,7 +590,7 @@
     "first_name": "Santiago",
     "last_name": "Gil",
     "dni": 43123228,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -462,7 +601,7 @@
     "first_name": "Matias",
     "last_name": "Dominguez",
     "dni": 43123229,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -473,7 +612,7 @@
     "first_name": "Angel",
     "last_name": "Castro", 
     "dni": 43123230,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -484,7 +623,7 @@
     "first_name": "Fabricio",
     "last_name": "Ramos",
     "dni": 43123231,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -495,7 +634,7 @@
     "first_name": "Santino",
     "last_name": "Romero",
     "dni": 43123232,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -506,7 +645,7 @@
     "first_name": "Alonzo",
     "last_name": "Torres",
     "dni": 43123233,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -517,7 +656,7 @@
     "first_name": "Adriano",
     "last_name": "Iglesias",
     "dni": 43123234,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -528,7 +667,7 @@
     "first_name": "Carlos",
     "last_name": "Adriano",
     "dni": 43123235,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -539,7 +678,7 @@
     "first_name": "Donato",
     "last_name": "Rubio",
     "dni": 43123236,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -550,7 +689,7 @@
     "first_name": "Federico",
     "last_name": "Serrano",
     "dni": 43123237,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -561,7 +700,7 @@
     "first_name": "Lorenzo",
     "last_name": "Santos",
     "dni": 43123238,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -572,7 +711,7 @@
     "first_name": "Guido",
     "last_name": "Calvo",
     "dni": 43123239,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -583,7 +722,7 @@
     "first_name": "Luigi",
     "last_name": "Prieto",
     "dni": 43123240,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -594,7 +733,7 @@
     "first_name": "Leonardo",
     "last_name": "Suarez",
     "dni": 43123241,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -605,7 +744,7 @@
     "first_name": "Luciano",
     "last_name": "Ortiz",
     "dni": 43123242,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -616,7 +755,7 @@
     "first_name": "Patricio",
     "last_name": "Ortega",
     "dni": 43123243,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -627,7 +766,7 @@
     "first_name": "Mauricio",
     "last_name": "Delgado",
     "dni": 43123244,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -638,7 +777,7 @@
     "first_name": "Piero",
     "last_name": "Sanz",
     "dni": 43123245,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -649,7 +788,7 @@
     "first_name": "Romeo",
     "last_name": "Diez",
     "dni": 43123246,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -660,7 +799,7 @@
     "first_name": "Hector",
     "last_name": "Mendez",
     "dni": 43123247,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -671,7 +810,7 @@
     "first_name": "Ulises",
     "last_name": "Peña",
     "dni": 43123248,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -682,7 +821,7 @@
     "first_name": "Tristan",
     "last_name": "Vidal",
     "dni": 43123249,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -693,7 +832,7 @@
     "first_name": "Sofia",
     "last_name": "Garrido",
     "dni": 43123250,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -704,7 +843,7 @@
     "first_name": "Lucia",
     "last_name": "Morales",
     "dni": 43123251,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -715,7 +854,7 @@
     "first_name": "Alejandra",
     "last_name": "Vega",
     "dni": 43123252,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -726,7 +865,7 @@
     "first_name": "Maria",
     "last_name": "Lorenzo",
     "dni": 43123253,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -737,7 +876,7 @@
     "first_name": "Maria",
     "last_name": "Castillo",
     "dni": 43123254,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -748,7 +887,7 @@
     "first_name": "Daniela",
     "last_name": "Gallego",
     "dni": 43123255,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -759,7 +898,7 @@
     "first_name": "Valeria",
     "last_name": "Lozano",
     "dni": 43123256,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -770,7 +909,7 @@
     "first_name": "Tomas",
     "last_name": "Molina",
     "dni": 43123257,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -781,7 +920,7 @@
     "first_name": "Julia",
     "last_name": "Cruz",
     "dni": 43123258,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -792,7 +931,7 @@
     "first_name": "Juan Cruz",
     "last_name": "Salinas",
     "dni": 43123259,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -803,7 +942,7 @@
     "first_name": "Alba",
     "last_name": "Ramirez",
     "dni": 43123260,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -814,7 +953,7 @@
     "first_name": "Claudia",
     "last_name": "Fuentes",
     "dni": 43123261,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -825,7 +964,7 @@
     "first_name": "Isabella",
     "last_name": "Herrero",
     "dni": 43123262,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -836,7 +975,7 @@
     "first_name": "Anabella",
     "last_name": "Alvarez",
     "dni": 43123263,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -847,7 +986,7 @@
     "first_name": "Rocio",
     "last_name": "Barrionuevo",
     "dni": 43123264,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -858,7 +997,7 @@
     "first_name": "Ludmila Nahir",
     "last_name": "Oviedo",
     "dni": 43123265,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -869,7 +1008,7 @@
     "first_name": "Lucila",
     "last_name": "Acosta",
     "dni": 43123266,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -880,7 +1019,7 @@
     "first_name": "Maria Jose",
     "last_name": "Figueroa",
     "dni": 43123267,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -891,7 +1030,7 @@
     "first_name": "Agustina",
     "last_name": "Sosa",
     "dni": 43123268,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -902,7 +1041,7 @@
     "first_name": "Martina",
     "last_name": "Hidalgo",
     "dni": 43123269,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
     }
   },
@@ -913,8 +1052,206 @@
     "first_name": "Julieta",
     "last_name": "Vacaro",
     "dni": 43123270,
-    "grade_choices": 4,
+    "grade_choices": 3,
     "group": 3
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 71,
+  "fields":{
+    "first_name": "Luis",
+    "last_name": "Vargas",
+    "dni": 43123271,
+    "grade_choices": 2,
+    "group": 4
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 72,
+  "fields":{
+    "first_name": "Mateo",
+    "last_name": "Mansilla",
+    "dni": 43123272,
+    "grade_choices": 2,
+    "group": 4
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 73,
+  "fields":{
+    "first_name": "Franco",
+    "last_name": "Pecsi",
+    "dni": 43123273,
+    "grade_choices": 2,
+    "group": 4
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 74,
+  "fields":{
+    "first_name": "Martina",
+    "last_name": "Hidalgo",
+    "dni": 43123274,
+    "grade_choices": 2,
+    "group": 4
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 75,
+  "fields":{
+    "first_name": "Rocio",
+    "last_name": "Barrionuevo",
+    "dni": 43123275,
+    "grade_choices": 2,
+    "group": 4
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 76,
+  "fields":{
+    "first_name": "Gonzalo",
+    "last_name": "Fragueiro",
+    "dni": 43123276,
+    "grade_choices": 1,
+    "group": 2
+    }
+  },
+    {
+  "model": "cnq.rawparticipant",
+  "pk": 77,
+  "fields":{
+    "first_name": "Facundo",
+    "last_name": "Davalle",
+    "dni": 43123277,
+    "grade_choices": 1,
+    "group": 2
+    }
+  },
+    {
+  "model": "cnq.rawparticipant",
+  "pk": 78,
+  "fields":{
+    "first_name": "Carloina",
+    "last_name": "Diaz",
+    "dni": 43123278,
+    "grade_choices": 1,
+    "group": 2
+    }
+  },
+    {
+  "model": "cnq.rawparticipant",
+  "pk": 79,
+  "fields":{
+    "first_name": "Ricardo",
+    "last_name": "Espinoza",
+    "dni": 43123279,
+    "grade_choices": 1,
+    "group": 2
+    }
+  },
+    {
+  "model": "cnq.rawparticipant",
+  "pk": 80,
+  "fields":{
+    "first_name": "Alvaro",
+    "last_name": "Hidalgo",
+    "dni": 43123280,
+    "grade_choices": 1,
+    "group": 2
+    }
+  },
+    {
+  "model": "cnq.rawparticipant",
+  "pk": 81,
+  "fields":{
+    "first_name": "Marcela",
+    "last_name": "Ferreiro",
+    "dni": 43123281,
+    "grade_choices": 1,
+    "group": 2
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 82,
+  "fields":{
+    "first_name": "Paulina",
+    "last_name": "Alvarez",
+    "dni": 43123282,
+    "grade_choices": 0,
+    "group": 1
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 83,
+  "fields":{
+    "first_name": "Cintia",
+    "last_name": "Fuentes",
+    "dni": 43123283,
+    "grade_choices": 0,
+    "group": 1
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 84,
+  "fields":{
+    "first_name": "Ricardo",
+    "last_name": "Godoy",
+    "dni": 43123284,
+    "grade_choices": 0,
+    "group": 1
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 85,
+  "fields":{
+    "first_name": "Isabel",
+    "last_name": "Jara",
+    "dni": 43123285,
+    "grade_choices": 0,
+    "group": 1
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 86,
+  "fields":{
+    "first_name": "Camila",
+    "last_name": "Lagos",
+    "dni": 43123286,
+    "grade_choices": 0,
+    "group": 1
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 87,
+  "fields":{
+    "first_name": "Javier",
+    "last_name": "Lopez",
+    "dni": 43123287,
+    "grade_choices": 0,
+    "group": 1
+    }
+  },
+  {
+  "model": "cnq.rawparticipant",
+  "pk": 88,
+  "fields":{
+    "first_name": "Ivan",
+    "last_name": "Lopez",
+    "dni": 43123288,
+    "grade_choices": 0,
+    "group": 1
     }
   }
 ]
