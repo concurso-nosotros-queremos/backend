@@ -12,46 +12,17 @@
     }
   },
   {
-    "model": "cnq.contest",
-    "pk": 2,
-    "fields": {
-      "is_active": true,
-      "name": "The Lost Boy",
-      "date_from": "2019-03-12T12:00:12.472Z",
-      "date_to": "2020-03-12T12:00:12.472Z",
-      "inscription_date_from": "2019-3-12T12:00:12.472Z",
-      "inscription_date_to": "2020-3-12T12:00:12.472Z"
-    }
-  },
-  {
-    "model": "cnq.contest",
-    "pk": 3,
-    "fields": {
-      "is_active": true,
-      "name": "Friends",
-      "date_from": "2019-04-12T12:41:12.472Z",
-      "date_to": "2020-04-12T12:21:41.472Z",
-      "inscription_date_from": "2019-4-12T12:41:12.472Z",
-      "inscription_date_to": "2020-4-12T12:21:41.472Z"
-    }
-  },
-  {
-    "model": "cnq.contest",
-    "pk": 4,
-    "fields": {
-      "is_active": true,
-      "name": "Inoportunos",
-      "date_from": "2019-05-12T12:01:12.472Z",
-      "date_to": "2020-05-12T12:01:12.472Z",
-      "inscription_date_from": "2019-5-12T12:01:12.472Z",
-      "inscription_date_to": "2020-5-12T12:01:12.472Z"
-    }
-  },
-  {
     "model": "cnq.state",
     "pk": 1,
     "fields": {
       "name": "Cordoba"
+    }
+  },
+  {
+    "model": "cnq.state",
+    "pk": 2,
+    "fields": {
+      "name": "Mendoza"
     }
   },
   {
@@ -60,6 +31,14 @@
     "fields": {
       "name": "Cordoba",
       "state": 1
+    }
+  },
+  {
+    "model": "cnq.city",
+    "pk": 2,
+    "fields": {
+      "name": "Uspallata",
+      "state": 2
     }
   },
   {
@@ -74,7 +53,7 @@
     "model": "cnq.group",
     "pk": 2,
     "fields": {
-      "contest": 2,
+      "contest": 1,
       "user": 1
     }
   },
@@ -82,7 +61,7 @@
     "model": "cnq.group",
     "pk": 3,
     "fields": {
-      "contest": 3,
+      "contest": 1,
       "user": 1
     }
   },
@@ -90,7 +69,7 @@
     "model": "cnq.group",
     "pk": 4,
     "fields": {
-      "contest": 4,
+      "contest": 1,
       "user": 1
     }
   },
@@ -105,42 +84,42 @@
     "model": "cnq.category",
     "pk": 2,
     "fields": {
-      "name": "Menores"
+      "name": "Adicciones"
     }
   },
   {
     "model": "cnq.category",
     "pk": 3,
     "fields": {
-      "name": "Espacio de uso común"
+      "name": "Menores"
     }
   },
   {
     "model": "cnq.category",
     "pk": 4,
     "fields": {
-      "name": "Género"
+      "name": "Tercera edad"
     }
   },
   {
     "model": "cnq.category",
     "pk": 5,
     "fields": {
-      "name": "Adicciones"
+      "name": "Espacio de uso común"
     }
   },
   {
     "model": "cnq.category",
     "pk": 6,
     "fields": {
-      "name": "Tercera edad"
+      "name": "Seguridad vial"
     }
   },
   {
     "model": "cnq.category",
     "pk": 7,
     "fields": {
-      "name": "Seguridad vial"
+      "name": "Género"
     }
   },
   {
@@ -218,7 +197,7 @@
       "street_name": "Entre Rios",
       "street_number": 142,
       "school_types": 1,
-      "city": 1,
+      "city": 2,
       "group": 2
     }
   },
