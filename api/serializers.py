@@ -84,10 +84,18 @@ class GroupTokenSerializer(serializers.ModelSerializer):
         if user.has_perm('view_group', group):
             token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(7))
             group_token = GroupToken.objects.create(user=user, token=token, **validated_data)
-            raise serializers.ValidationError(token)
+            return group_token
         else:
             raise serializers.ValidationError("No tienes permisos para ejecutar esta accion") 
-
+    
+    def to_representation(self, instance):
+        ret = super(GroupTokenSerializer, self).to_representation(instance)
+        # check the request is list view or detail view
+        is_list_view = isinstance(self.instance, list)
+        extra_ret = {'token': instance.token} if is_list_view else {'token': instance.token}
+        ret.update(extra_ret)
+        return ret
+        
 class Token(object):
     def __init__(self, **kwargs):
         for field in ('id', 'token'):
