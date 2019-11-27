@@ -84,7 +84,7 @@ class GroupTokenSerializer(serializers.ModelSerializer):
         if user.has_perm('view_group', group):
             token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(7))
             group_token = GroupToken.objects.create(user=user, token=token, **validated_data)
-            return group_token
+            raise serializers.ValidationError(token)
         else:
             raise serializers.ValidationError("No tienes permisos para ejecutar esta accion") 
 
