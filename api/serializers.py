@@ -6,6 +6,9 @@ from guardian.shortcuts import assign_perm
 import random, string
 from django.core.mail import EmailMessage
 from django.conf import settings
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.exceptions import APIException
 
 class ContestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -101,6 +104,16 @@ class Token(object):
         for field in ('id', 'token'):
             setattr(self, field, kwargs.get(field, None))
 
+class SuccessAccess(APIException):
+    status_code = 200
+    default_detail = 'Acceso garantizado'
+    default_code = 'success'
+
+class DeniedAccess(APIException):
+    status_code = 401
+    default_detail = 'Acceso denegado'
+    default_code = 'denied'
+
 class TokenSerializer(serializers.Serializer):
     token = serializers.CharField(max_length = 7)
 
@@ -111,8 +124,8 @@ class TokenSerializer(serializers.Serializer):
             if group_token.token == token.token:
                 group = group_token.group
                 assign_perm('view_group', user, group)
-                raise serializers.ValidationError("Acceso garantizado")
-        raise serializers.ValidationError("Acceso denegado")
+                raise SuccessAccess
+        raise DeniedAccess
 
 class UserInfoSerializer(serializers.Serializer):
     username = serializers.CharField()
