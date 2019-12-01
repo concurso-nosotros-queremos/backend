@@ -172,8 +172,8 @@ grade_choices = [
 class RawParticipant(models.Model):
     specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
 
-    first_name = models.CharField('Nombre', max_length=15, null=False)
-    last_name = models.CharField('Apellido', max_length=15, null=False)
+    first_name = models.CharField('Nombre', max_length=20, null=False)
+    last_name = models.CharField('Apellido', max_length=20, null=False)
     dni = models.PositiveIntegerField('Dni', null=False, validators=[MinValueValidator(10000000), MaxValueValidator(99999999)])
     grade_choices = models.PositiveIntegerField('Año', choices=grade_choices, null=False, validators=[MinValueValidator(0)])
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='raw_participant')

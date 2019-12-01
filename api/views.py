@@ -145,7 +145,8 @@ class UserInfoToken(APIView):
             userToken = AccessToken.objects.get(token=token)
             if str(userToken.expires) > str(datetime.now()):
                 user = User.objects.get(id=userToken.user.id)
-                group = Group.objects.filter(user=userToken.user.id).count()
+                perms = get_objects_for_user(userToken.user, 'cnq.view_group').count()
+                group = Group.objects.filter(user=userToken.user.id).count() + perms
                 obj = {'id': user.id,
                     'username': user.username,
                     'is_active': user.is_active,

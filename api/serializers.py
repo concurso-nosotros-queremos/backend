@@ -84,7 +84,7 @@ class GroupTokenSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         group = validated_data.get('group')
-        if user.has_perm('view_group', group):
+        if user.has_perm('view_group', group) or group.user == self.context['request'].user:
             token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(7))
             group_token = GroupToken.objects.create(user=user, token=token, **validated_data)
             return group_token
