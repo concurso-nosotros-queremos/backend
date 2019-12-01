@@ -5,6 +5,11 @@ from django.core.validators import RegexValidator, MaxValueValidator, MinValueVa
 from datetime import datetime
 from django.db import DataError
 # Create your models here.
+class MyMaxValueValidator(MaxValueValidator):
+    message = ('Introduzca un valor correcto')
+
+class MyMinValueValidator(MinValueValidator):
+    message = ('Introduzca un valor correcto')
 
 class MessageEmail(models.Model):
     name = models.CharField('Nombre', max_length=30, null=False)
@@ -67,8 +72,8 @@ diffusion = [
 ]
 
 class Category(models.Model):
-    name = models.CharField('Nombre', max_length=20, null=False)
-    description = models.CharField('Descripcion', max_length=40)
+    name = models.CharField('Nombre', max_length=30, null=False)
+    description = models.CharField('Descripcion', max_length=300)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -77,9 +82,9 @@ class Category(models.Model):
 class RawProject(models.Model):
     specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
 
-    name = models.CharField('Nombre', max_length=30, null=False, validators=[specialCharacters])
-    problem = models.CharField('Problema', max_length=70, null=False, validators=[specialCharacters])
-    solution = models.CharField('Solucion', max_length=150, null=False, validators=[specialCharacters])
+    name = models.CharField('Nombre', max_length=50, null=False)
+    problem = models.CharField('Problema', max_length=500, null=False)
+    solution = models.CharField('Solucion', max_length=500, null=False)
     diffusion = models.PositiveIntegerField('Difusion', choices=diffusion, null=False, validators=[MaxValueValidator(4), MinValueValidator(0)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_project')
     category = models.ManyToManyField(Category, related_name='raw_project')
@@ -101,9 +106,9 @@ school_types = [
 class RawSchool(models.Model):
     specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
 
-    name = models.CharField('Nombre', max_length=35, null=False, validators=[specialCharacters])
-    street_name = models.CharField('Direccion', max_length=40, validators=[specialCharacters])
-    street_number = models.PositiveIntegerField('Altura', null=False, validators=[MaxValueValidator(99999)])
+    name = models.CharField('Nombre', max_length=60, null=False)
+    street_name = models.CharField('Direccion', max_length=60)
+    street_number = models.PositiveIntegerField('Altura', null=False, validators=[MyMaxValueValidator(99999)])
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='group_location')
     school_types = models.PositiveIntegerField('Tipo de escuela', choices=school_types, null=False, validators=[MinValueValidator(0)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_school')
@@ -173,9 +178,9 @@ grade_choices = [
 class RawParticipant(models.Model):
     specialCharacters = RegexValidator(regex='^[a-zA-Z ]*$', message='Caracteres espciales no esta disponibles')
 
-    first_name = models.CharField('Nombre', max_length=15, null=False, validators=[specialCharacters])
-    last_name = models.CharField('Apellido', max_length=15, null=False, validators=[specialCharacters])
-    dni = models.PositiveIntegerField('Dni', null=False, validators=[MinValueValidator(10000000), MaxValueValidator(99999999)])
+    first_name = models.CharField('Nombre', max_length=15, null=False)
+    last_name = models.CharField('Apellido', max_length=15, null=False)
+    dni = models.PositiveIntegerField('Dni', null=False, validators=[MyMinValueValidator(10000000), MyMaxValueValidator(99999999)])
     grade_choices = models.PositiveIntegerField('Año', choices=grade_choices, null=False, validators=[MinValueValidator(0)])
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='raw_participant')
 
@@ -183,9 +188,9 @@ class RawParticipant(models.Model):
         return '{} {}, Dni Nº: {}'.format(self.first_name, self.last_name, self.dni)
 
 class RawContact(models.Model):
-    phone_number = models.PositiveIntegerField('Numero del tutor', null=False, validators=[MinValueValidator(1000000000), MaxValueValidator(9999999999)])
+    phone_number = models.PositiveIntegerField('Numero del tutor', null=False, validators=[MyMinValueValidator(1000000000), MyMaxValueValidator(9999999999)])
     alternative_email = models.EmailField('Mail del tutor alternativo', max_length=70, null=False)
-    alternative_phone_number = models.PositiveIntegerField('Numero del tutor alternativo', null=False, validators=[MinValueValidator(1000000000), MaxValueValidator(9999999999)])
+    alternative_phone_number = models.PositiveIntegerField('Numero del tutor alternativo', null=False, validators=[MyMinValueValidator(1000000000), MyMaxValueValidator(9999999999)])
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='raw_contact')
 
     def __str__(self):
