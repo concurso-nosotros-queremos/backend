@@ -129,10 +129,8 @@ class TokenSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         token = Token(id=None, **validated_data)
-        print(token.token)
         user = self.context['request'].user
         for group_token in [Group.objects.get(id=i.id) for i in Group.objects.all()]:
-            print(group_token.token)
             if group_token.token == token.token:
                 if (user != group_token.user) and (user.has_perm('view_group', group_token) != True):
                     assign_perm('view_group', user, group_token)
