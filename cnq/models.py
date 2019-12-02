@@ -52,7 +52,8 @@ class City(models.Model):
 
 class Group(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='group')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user1')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_group')
+    token = models.CharField('Token', max_length=7, null=False, unique=True)
     def __str__(self):
         return 'Concurso: {}'.format(self.contest.name)
 
@@ -144,7 +145,7 @@ class GroupRole(models.Model):
         return 'El usuario {} tiene el rol {} para el grupo {}'.format(self.user, self.group_role_choices, self.group)
 
 class GroupToken(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_token')
     token = models.CharField('Token', max_length=7, null=False, unique=True)
     is_active = models.BooleanField('Activo', default=True)
     max_uses = models.PositiveIntegerField('Usos maximos', null=True)

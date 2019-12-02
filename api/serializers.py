@@ -114,18 +114,32 @@ class DeniedAccess(APIException):
     default_detail = 'Acceso denegado'
     default_code = 'denied'
 
+class AlreadyAccess(APIException):
+    status_code = 200
+    default_detail = 'Ya tienes accesso'
+    default_code = 'success'
+
+class BadRequest(APIException):
+    status_code = 400
+    default_detail = 'Token incorrecto'
+    default_code = 'bad'
+
 class TokenSerializer(serializers.Serializer):
     token = serializers.CharField(max_length = 7)
 
     def create(self, validated_data):
         token = Token(id=None, **validated_data)
+        print(token.token)
         user = self.context['request'].user
-        for group_token in [GroupToken.objects.get(id=token.id) for token in GroupToken.objects.all()]:
+        for group_token in [Group.objects.get(id=i.id) for i in Group.objects.all()]:
+            print(group_token.token)
             if group_token.token == token.token:
-                group = group_token.group
-                assign_perm('view_group', user, group)
-                raise SuccessAccess
-        raise DeniedAccess
+                if (user != group_token.user) and (user.has_perm('view_group', group_token) != True):
+                    assign_perm('view_group', user, group_token)
+                    raise SuccessAccess
+                else: 
+                    raise AlreadyAccess
+        raise BadRequest
 
 class UserInfoSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -203,7 +217,8 @@ class GroupSerializer(serializers.ModelSerializer):
 
         contest = Contest.objects.get(is_active=True)
         user = self.context['request'].user
-        group = Group.objects.create(contest=contest, user=user, **validated_data)
+        token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(7))
+        group = Group.objects.create(contest=contest, user=user, token=token, **validated_data)
         RawSchool.objects.create(group=group, **raw_school_data)
         raw_project = RawProject.objects.create(group=group, **raw_project_data)
         for raw_participant in raw_participant_data:
@@ -213,6 +228,13 @@ class GroupSerializer(serializers.ModelSerializer):
         raw_project.category.set(categories_obj)
         assign_perm('view_group', user, group)
         return group
+    
+    def to_representation(self, instance):
+        ret = super(GroupSerializer, self).to_representation(instance)
+        is_list_view = isinstance(self.instance, list)
+        extra_ret = {'token': instance.token} if is_list_view else {'token': instance.token}
+        ret.update(extra_ret)
+        return ret
 
     def update(self, instance, validated_data):
         #Raw_school
