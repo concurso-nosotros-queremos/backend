@@ -23,7 +23,7 @@ from templates import *
 from weasyprint import HTML
 import tempfile
 from django.template.loader import render_to_string
-from itertools import groupby
+from datetime import timedelta
 
 
 # Create your views here.
@@ -144,6 +144,13 @@ class UserInfoToken(APIView):
         try:
             userToken = AccessToken.objects.get(token=token)
             if str(userToken.expires) > str(datetime.now()):
+                contest = Contest.objects.get(is_active=True)
+                now = datetime.now().isoformat()
+                end = contest.inscription_date_to.isoformat()
+                if now>end:
+                    contest_end = False
+                else: 
+                    contest_end = True
                 user = User.objects.get(id=userToken.user.id)
                 perms = get_objects_for_user(userToken.user, 'cnq.view_group')
                 count = 0
@@ -156,7 +163,8 @@ class UserInfoToken(APIView):
                     'is_active': user.is_active,
                     'is_superuser': user.is_superuser,
                     'is_staff': user.is_staff,
-                    'group_count': group}
+                    'group_count': group,
+                    'contest_status': contest_end}
                 return Response(obj)
             else:
                 raise MissingTokenException
